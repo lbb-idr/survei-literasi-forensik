@@ -189,7 +189,24 @@ def main():
         print("Error: tidak ada input")
         return
 
-    data, errors = parse_survey(text)
+    stripped = text.strip()
+    # Auto-detect format: JSON (mulai {) atau text format
+    if stripped.startswith('{'):
+        try:
+            data = json.loads(stripped)
+            if data.get('action') == 'createForm' and 'definition' in data:
+                data = data['definition']
+        except json.JSONDecodeError:
+            print("❌ JSON tidak valid, coba parse sebagai text...")
+            data, errors = parse_survey(text)
+        else:
+            errors = []
+            # Validasi struktur minimal
+            if not data.get('title') or not data.get('sections'):
+                print("❌ JSON harus punya 'title' dan 'sections'. Coba parse sebagai text...")
+                data, errors = parse_survey(text)
+    else:
+        data, errors = parse_survey(text)
 
     if errors:
         for e in errors:
