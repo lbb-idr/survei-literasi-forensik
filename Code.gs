@@ -1,8 +1,13 @@
 function doGet(e) {
   try {
-    console.log('doGet called. params:', JSON.stringify(e.parameter));
-    var data = JSON.parse(e.parameter.data || '{}');
-    var callback = e.parameter.callback || 'callback';
+    console.log('doGet called. e exists:', !!e);
+
+    var params = (e && e.parameter) || {};
+    console.log('params keys:', JSON.stringify(Object.keys(params)));
+
+    var rawData = params.data || '{}';
+    var data = JSON.parse(rawData);
+    var callback = params.callback || 'callback';
 
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     var columns = [
@@ -25,13 +30,18 @@ function doGet(e) {
     });
     sheet.appendRow(row);
 
+    console.log('row appended successfully');
+
     return ContentService
       .createTextOutput(callback + '(' + JSON.stringify({ status: 'ok' }) + ')')
       .setMimeType(ContentService.MimeType.JAVASCRIPT);
 
   } catch (err) {
-    console.error('Error:', err.toString());
-    var cb = (e && e.parameter && e.parameter.callback) ? e.parameter.callback : 'callback';
+    console.error('Error:', err.toString(), 'stack:', err.stack);
+
+    var cb = 'callback';
+    try { cb = (e && e.parameter && e.parameter.callback) || 'callback'; } catch (ex) {}
+
     return ContentService
       .createTextOutput(cb + '(' + JSON.stringify({ status: 'error', message: err.toString() }) + ')')
       .setMimeType(ContentService.MimeType.JAVASCRIPT);
