@@ -223,10 +223,40 @@ function handleRequest(e) {
   }
 }
 
+function ensureDataSheet() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ds = ss.getSheetByName('Data');
+  if (ds && ds.getLastRow() > 0) return ds;
+  var sheets = ss.getSheets();
+  for (var i = 0; i < sheets.length; i++) {
+    var s = sheets[i];
+    if (s.getName() === 'Dashboard' || s.getName() === 'Data') continue;
+    if (s.getLastRow() > 1) {
+      s.setName('Data');
+      return s;
+    }
+  }
+  if (!ds) ds = ss.insertSheet('Data');
+  return ds;
+}
+
+function refreshDashboard() {
+  SpreadsheetApp.flush();
+  var dash = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Dashboard');
+  if (dash) {
+    dash.getRange('A2').setFormula('="Last updated: "&TEXT(NOW(),"dd MMM yyyy HH:mm")');
+  }
+}
+
 function setupDashboard() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var data = ss.getSheetByName('Data') || ss.insertSheet('Data');
+  var data = ensureDataSheet();
+  if (data.getLastRow() === 1) {
+    SpreadsheetApp.getUi().alert('Belum ada data responden. Isi dulu sheet Data dengan data survei.');
+    return;
+  }
   var dn = data.getName();
+  var lastDataRow = data.getLastRow();
 
   var dash = ss.getSheetByName('Dashboard');
   if (dash) {
@@ -238,79 +268,161 @@ function setupDashboard() {
     dash = ss.insertSheet('Dashboard');
   }
 
-  dash.getRange('A1').setValue('DASHBOARD SURVEI LITERASI FORENSIK').setFontSize(16).setFontWeight('bold');
-  dash.getRange('A2').setFormula('="Last updated: "&TEXT(NOW(),"dd MMM yyyy HH:mm")').setFontStyle('italic').setFontColor('#666');
+  dash.getRange('A1:I1').mergeAcross();
+  dash.getRange('A1').setValue('DASHBOARD SURVEI LITERASI FORENSIK').setFontSize(18).setFontWeight('bold');
+  dash.getRange('A1').setBackground('#1a1208').setFontColor('#faf7f2').setHorizontalAlignment('center').setVerticalAlignment('middle');
+  dash.setRowHeight(1, 40);
 
-  dash.getRange('A4').setValue('RINGKASAN').setFontSize(12).setFontWeight('bold');
-  dash.getRange('A5').setFormula('="Total: "&COUNTA(' + dn + '!A2:A)');
-  dash.getRange('A6').setFormula('="Grup A: "&COUNTIF(' + dn + '!B2:B,"A")');
-  dash.getRange('A7').setFormula('="Grup B: "&COUNTIF(' + dn + '!B2:B,"B")');
+  dash.getRange('A2:I2').mergeAcross();
+  dash.getRange('A2').setFormula('="Last updated: "&TEXT(NOW(),"dd MMM yyyy HH:mm")');
+  dash.getRange('A2').setFontStyle('italic').setFontColor('#6b5e4a').setFontSize(11).setHorizontalAlignment('center');
+  dash.setRowHeight(2, 22);
 
+  // ── Ringkasan ──
+  dash.getRange('A4').setValue('RINGKASAN').setFontSize(13).setFontWeight('bold');
+  dash.getRange('A4').setBackground('#e8e0d0').setPaddingTop(4).setPaddingBottom(4);
+
+  var totalFormula = '=COUNTA(' + dn + '!A2:A' + lastDataRow + ')';
+  dash.getRange('A5').setFormula('="Total Responden:  " & ' + totalFormula).setFontSize(12).setFontWeight('bold');
+  dash.getRange('A5').setBorder(true,true,true,true,false,false, '#d4c9b0', SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
+  dash.getRange('A6').setFormula('="Grup A (Kontrol):     " & COUNTIF(' + dn + '!B2:B' + lastDataRow + ',"A")').setFontSize(12);
+  dash.getRange('A7').setFormula('="Grup B (Perlakuan): " & COUNTIF(' + dn + '!B2:B' + lastDataRow + ',"B")').setFontSize(12);
+  dash.getRange('A6:A7').setBorder(true,true,true,true,false,false, '#d4c9b0', SpreadsheetApp.BorderStyle.SOLID);
+  dash.setColumnWidth(1, 240);
+
+  // ── Tabel Grup untuk Pie ──
   dash.getRange('D5').setValue('Grup');
-  dash.getRange('E5').setValue('Count');
-  dash.getRange('D6').setFormula('=QUERY(' + dn + '!B2:B,"select B, count(B) where B is not null group by B label count(B)\'\'",0)');
+  dash.getRange('E5').setValue('Responden');
+  dash.getRange('D5:E5').setFontWeight('bold').setBackground('#1a1208').setFontColor('white').setHorizontalAlignment('center');
+  dash.getRange('D6').setFormula(
+    '=QUERY(' + dn + '!B2:B' + lastDataRow + ',"select B, count(B) where B is not null group by B label count(B)\'\'",0)'
+  );
+  dash.getRange('D6:E7').setHorizontalAlignment('center');
 
-  var pie = dash.newChart().setChartType(Charts.ChartType.PIE)
-    .addRange(dash.getRange('D5:E7')).setPosition(5, 7, 0, 0)
+  var pie = dash.newChart()
+    .setChartType(Charts.ChartType.PIE)
+    .addRange(dash.getRange('D5:E7'))
+    .setPosition(5, 7, 0, 0)
     .setOption('title', 'Proporsi Grup A vs B')
-    .setOption('width', 300).setOption('height', 250).build();
+    .setOption('width', 320).setOption('height', 260)
+    .setOption('pieSliceText', 'value')
+    .setOption('legend', {position: 'bottom'})
+    .setOption('colors', ['#1a4a7a', '#c0392b'])
+    .build();
   dash.insertChart(pie);
 
-  dash.getRange('A10').setValue('DEMOGRAFI').setFontSize(12).setFontWeight('bold');
+  // ── Demografi ──
+  var demoRow = 10;
+  dash.getRange('A' + demoRow).setValue('DEMOGRAFI').setFontSize(13).setFontWeight('bold');
+  dash.getRange('A' + demoRow).setBackground('#e8e0d0');
 
-  dash.getRange('A12').setValue('Usia');
-  dash.getRange('B12').setValue('Count');
-  dash.getRange('A13').setFormula('=QUERY(' + dn + '!D2:D,"select D,count(D) where D is not null group by D order by D label count(D)\'\'",0)');
+  var usRow = demoRow + 2;
+  dash.getRange('A' + usRow).setValue('Usia').setFontWeight('bold');
+  dash.getRange('B' + usRow).setValue('Responden').setFontWeight('bold');
+  dash.getRange('A' + usRow + ':B' + usRow).setBackground('#1a1208').setFontColor('white').setHorizontalAlignment('center');
+  dash.getRange('A' + (usRow+1)).setFormula(
+    '=QUERY(' + dn + '!D2:D' + lastDataRow + ',"select D,count(D) where D is not null group by D order by D label count(D)\'\'",0)'
+  );
+  dash.getRange('A' + (usRow+1) + ':B30').setHorizontalAlignment('center');
 
-  dash.getRange('D12').setValue('Pendidikan');
-  dash.getRange('E12').setValue('Count');
-  dash.getRange('D13').setFormula('=QUERY(' + dn + '!E2:E,"select E,count(E) where E is not null group by E order by count(E) desc label count(E)\'\'",0)');
+  var pendRow = demoRow + 2;
+  dash.getRange('D' + pendRow).setValue('Pendidikan').setFontWeight('bold');
+  dash.getRange('E' + pendRow).setValue('Responden').setFontWeight('bold');
+  dash.getRange('D' + pendRow + ':E' + pendRow).setBackground('#1a1208').setFontColor('white').setHorizontalAlignment('center');
+  dash.getRange('D' + (pendRow+1)).setFormula(
+    '=QUERY(' + dn + '!E2:E' + lastDataRow + ',"select E,count(E) where E is not null group by E order by count(E) desc label count(E)\'\'",0)'
+  );
+  dash.getRange('D' + (pendRow+1) + ':E30').setHorizontalAlignment('center');
 
-  dash.getRange('G12').setValue('Frekuensi Baca');
-  dash.getRange('H12').setValue('Count');
-  dash.getRange('G13').setFormula('=QUERY(' + dn + '!F2:F,"select F,count(F) where F is not null group by F order by count(F) desc label count(F)\'\'",0)');
+  var freqRow = demoRow + 2;
+  dash.getRange('G' + freqRow).setValue('Frekuensi Baca').setFontWeight('bold');
+  dash.getRange('H' + freqRow).setValue('Responden').setFontWeight('bold');
+  dash.getRange('G' + freqRow + ':H' + freqRow).setBackground('#1a1208').setFontColor('white').setHorizontalAlignment('center');
+  dash.getRange('G' + (freqRow+1)).setFormula(
+    '=QUERY(' + dn + '!F2:F' + lastDataRow + ',"select F,count(F) where F is not null group by F order by count(F) desc label count(F)\'\'",0)'
+  );
+  dash.getRange('G' + (freqRow+1) + ':H30').setHorizontalAlignment('center');
 
-  var colChart = dash.newChart().setChartType(Charts.ChartType.COLUMN)
-    .addRange(dash.getRange('A12:B22')).setPosition(11, 1, 0, 0)
+  var colChart = dash.newChart()
+    .setChartType(Charts.ChartType.COLUMN)
+    .addRange(dash.getRange('A' + usRow + ':B30'))
+    .setPosition(usRow, 1, 0, 0)
     .setOption('title', 'Distribusi Usia')
-    .setOption('width', 350).setOption('height', 250).build();
+    .setOption('width', 350).setOption('height', 250)
+    .setOption('hAxis', {title: 'Usia'}).setOption('vAxis', {title: 'Responden'})
+    .setOption('colors', ['#1a4a7a'])
+    .build();
   dash.insertChart(colChart);
 
-  var barChart = dash.newChart().setChartType(Charts.ChartType.BAR)
-    .addRange(dash.getRange('D12:E22')).setPosition(11, 5, 0, 0)
+  var barChart = dash.newChart()
+    .setChartType(Charts.ChartType.BAR)
+    .addRange(dash.getRange('D' + pendRow + ':E30'))
+    .setPosition(pendRow, 5, 0, 0)
     .setOption('title', 'Distribusi Pendidikan')
-    .setOption('width', 400).setOption('height', 250).build();
+    .setOption('width', 400).setOption('height', 250)
+    .setOption('hAxis', {title: 'Responden'}).setOption('vAxis', {title: 'Pendidikan'})
+    .setOption('colors', ['#b8860b'])
+    .build();
   dash.insertChart(barChart);
 
-  var freqChart = dash.newChart().setChartType(Charts.ChartType.COLUMN)
-    .addRange(dash.getRange('G12:H22')).setPosition(11, 10, 0, 0)
+  var freqChart = dash.newChart()
+    .setChartType(Charts.ChartType.COLUMN)
+    .addRange(dash.getRange('G' + freqRow + ':H30'))
+    .setPosition(freqRow, 10, 0, 0)
     .setOption('title', 'Frekuensi Membaca Berita')
-    .setOption('width', 350).setOption('height', 250).build();
+    .setOption('width', 350).setOption('height', 250)
+    .setOption('hAxis', {title: 'Frekuensi'}).setOption('vAxis', {title: 'Responden'})
+    .setOption('colors', ['#2d5a27'])
+    .build();
   dash.insertChart(freqChart);
-
-  dash.getRange('A25').setValue('ANALISIS LIKERT').setFontSize(12).setFontWeight('bold');
-
-  var likerts = [
-    {col:'G', title:'b1q1 - Berita 1 jelas'},
-    {col:'H', title:'b1q2 - Berita 1 akurat'},
-    {col:'I', title:'b1q3 - Berita 1 objektif'},
-    {col:'R', title:'b2q1 - Berita 2 jelas'},
-    {col:'S', title:'b2q2 - Berita 2 akurat'},
-    {col:'T', title:'b2q3 - Berita 2 objektif'}
-  ];
-
-  var row = 27;
-  for (var i = 0; i < likerts.length; i++) {
-    dash.getRange('A' + row).setValue(likerts[i].title).setFontWeight('bold').setFontSize(10);
-    dash.getRange('A' + (row+1)).setValue('Respon');
-    dash.getRange('B' + (row+1)).setValue('Count');
-    dash.getRange('A' + (row+2)).setFormula(
-      '=QUERY(' + dn + '!' + likerts[i].col + '2:' + likerts[i].col + ',"select ' + likerts[i].col + ', count(' + likerts[i].col + ') where ' + likerts[i].col + ' is not null group by ' + likerts[i].col + ' order by count(' + likerts[i].col + ') desc label count(' + likerts[i].col + ')\'\'",0)'
-    );
-    row += 8;
-  }
 
   dash.activate();
   ss.moveActiveSheet(0);
+  SpreadsheetApp.flush();
+}
+
+function formatDataSheet() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var data = ensureDataSheet();
+  if (data.getLastRow() < 1) return;
+
+  var lastCol = data.getLastColumn();
+  var lastRow = data.getLastRow();
+  var headerRange = data.getRange(1, 1, 1, lastCol);
+  var dataRange = data.getRange(2, 1, lastRow - 1, lastCol);
+
+  headerRange.setBackground('#1a1208').setFontColor('#faf7f2').setFontWeight('bold').setFontSize(10);
+  headerRange.setHorizontalAlignment('center').setVerticalAlignment('middle');
+  data.setRowHeight(1, 28);
+
+  data.setFrozenRows(1);
+  data.setFrozenColumns(2);
+
+  if (lastRow > 1) {
+    dataRange.setVerticalAlignment('middle').setFontSize(10);
+    dataRange.setBorder(true, true, true, true, true, true, '#d4c9b0', SpreadsheetApp.BorderStyle.SOLID);
+    for (var r = 2; r <= lastRow; r++) {
+      if ((r - 2) % 2 === 0) {
+        data.getRange(r, 1, 1, lastCol).setBackground('#f5f0e8');
+      }
+    }
+  }
+
+  for (var c = 1; c <= lastCol; c++) {
+    var maxLen = 10;
+    if (lastRow > 1) {
+      var colVals = data.getRange(2, c, lastRow - 1 > 100 ? 100 : lastRow - 1, 1).getValues();
+      for (var vr = 0; vr < colVals.length; vr++) {
+        var val = String(colVals[vr][0] || '');
+        if (val.length > maxLen) maxLen = val.length;
+      }
+    }
+    var headerText = String(data.getRange(1, c).getValue() || '');
+    if (headerText.length > maxLen) maxLen = headerText.length;
+    var colWidth = Math.min(Math.max(maxLen * 8 + 20, 80), 350);
+    data.setColumnWidth(c, colWidth);
+  }
+
+  data.activate();
   SpreadsheetApp.flush();
 }
