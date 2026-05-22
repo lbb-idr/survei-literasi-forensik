@@ -474,29 +474,21 @@ function formatDataSheet() {
 function fixGroupData() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName('Data');
-  if (!sheet || sheet.getLastRow() < 2) {
-    SpreadsheetApp.getUi().alert('Sheet Data kosong atau tidak ditemukan.');
-    return;
-  }
+  if (!sheet || sheet.getLastRow() < 2) return;
 
-  // Kolom B = grup
-  // Baris 2 = data pertama → harus A
-  // Baris 3 = data kedua → harus B
-
-  var fixed = [];
+  var log = [];
 
   if (!sheet.getRange(2, 2).getValue()) {
     sheet.getRange(2, 2).setValue('A');
-    fixed.push('Baris 2 (R01): grup kosong → diperbaiki menjadi A');
+    log.push('Baris 2: grup kosong → A');
   }
   if (sheet.getRange(3, 2).getValue() === 'A') {
     sheet.getRange(3, 2).setValue('B');
-    fixed.push('Baris 3 (A02): grup A → diperbaiki menjadi B');
+    log.push('Baris 3: grup A → B');
   }
 
-  if (fixed.length > 0) {
-    SpreadsheetApp.getUi().alert('Perbaikan grup:\n' + fixed.join('\n'));
-  } else {
-    SpreadsheetApp.getUi().alert('Tidak ada perbaikan yang diperlukan.');
+  if (log.length > 0) {
+    sheet.getRange('Z1').setValue('fixGroupData: ' + log.join('; ') + ' — ' + new Date());
+    console.log('fixGroupData:', log.join(', '));
   }
 }
