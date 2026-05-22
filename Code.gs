@@ -1,14 +1,10 @@
-function doPost(e) {
+function doGet(e) {
   try {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var data = {};
+    console.log('doGet called. params:', JSON.stringify(e.parameter));
+    var data = JSON.parse(e.parameter.data || '{}');
+    var callback = e.parameter.callback || 'callback';
 
-    if (e.parameter && e.parameter.data) {
-      data = JSON.parse(e.parameter.data);
-    } else if (e.postData && e.postData.contents) {
-      data = JSON.parse(e.postData.contents);
-    }
-
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     var columns = [
       'timestamp', 'group', 'kode', 'usia', 'pendidikan', 'frekuensi_baca',
       'b1q1', 'b1q2', 'b1q3', 'b1q4',
@@ -29,17 +25,19 @@ function doPost(e) {
     });
     sheet.appendRow(row);
 
-    return ContentService.createTextOutput(
-      JSON.stringify({ status: 'ok' })
-    ).setMimeType(ContentService.MimeType.JSON);
+    return ContentService
+      .createTextOutput(callback + '(' + JSON.stringify({ status: 'ok' }) + ')')
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
 
   } catch (err) {
-    return ContentService.createTextOutput(
-      JSON.stringify({ status: 'error', message: err.toString() })
-    ).setMimeType(ContentService.MimeType.JSON);
+    console.error('Error:', err.toString());
+    var cb = (e && e.parameter && e.parameter.callback) ? e.parameter.callback : 'callback';
+    return ContentService
+      .createTextOutput(cb + '(' + JSON.stringify({ status: 'error', message: err.toString() }) + ')')
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
   }
 }
 
-function doGet() {
-  return HtmlService.createHtmlOutput('<h2>Survey endpoint aktif.</h2>');
+function doPost(e) {
+  return doGet(e);
 }

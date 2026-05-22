@@ -630,10 +630,6 @@
     <div id="submitStatus" style="margin-top:12px;font-size:13px;color:var(--muted);font-style:italic;display:none;"></div>
   </div>
 
-  <form id="submitForm" target="submitFrame" action="https://script.google.com/macros/s/AKfycbwt9fJOMiRV6H7GZPNRhgK1n3AK5zfq_txc4vrdwJoz4qInaSCR_PtuI95K5NJ1S-lM/exec" method="POST" style="display:none">
-    <input type="hidden" name="data" id="payloadInput">
-  </form>
-
   <!-- PANDUAN SKORING -->
   <div class="scoring-panel">
     <p style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:12px;">📊 Panduan Skoring — Hanya untuk Peneliti</p>
@@ -652,10 +648,10 @@
 
 <script>
 function collectData() {
-  const d = {};
+  var d = {};
   d.timestamp = new Date().toISOString();
-  const g = document.querySelector('[class*="grp-a"], [class*="grp-b"]');
-  d.group = g?.textContent.trim().startsWith('B') ? 'B' : 'A';
+  var g = document.querySelector('[class*="grp-a"], [class*="grp-b"]');
+  d.group = g ? (g.textContent.trim().startsWith('B') ? 'B' : 'A') : '';
   document.querySelectorAll('[data-field]').forEach(function(el) {
     d[el.dataset.field] = el.value || '';
   });
@@ -663,7 +659,7 @@ function collectData() {
   var i, el, num, label;
   var likert = ['b1q1','b1q2','b1q3','b2q1','b2q2','b2q3','rf1','rf3s'];
   for (i = 0; i < likert.length; i++) {
-    el = document.querySelector('input[name="'+likert[i]+'"]:checked');
+    el = document.querySelector('input[name="' + likert[i] + '"]:checked');
     if (el) {
       var item = el.closest('.likert-item');
       if (item) {
@@ -676,7 +672,7 @@ function collectData() {
   var radio = ['b1q4','b1q6','b1q7','b1q8','b1q9',
                'b2q4','b2q6','b2q7','b2q8','b2q9','b2q10','rf2','rf3'];
   for (i = 0; i < radio.length; i++) {
-    el = document.querySelector('input[name="'+radio[i]+'"]:checked');
+    el = document.querySelector('input[name="' + radio[i] + '"]:checked');
     if (el) {
       label = el.closest('.radio-item');
       if (label) {
@@ -686,6 +682,21 @@ function collectData() {
     }
   }
   return d;
+}
+
+function handleResponse(response) {
+  var btn = document.getElementById('submitBtn');
+  var status = document.getElementById('submitStatus');
+  if (response.status === 'ok') {
+    status.textContent = '✓ Jawaban berhasil dikirim! Terima kasih.';
+    status.style.color = '#1c6b1c';
+    btn.textContent = 'Terkirim';
+  } else {
+    status.textContent = '✗ Gagal: ' + (response.message || 'unknown error') + '. Coba lagi.';
+    status.style.color = '#c0392b';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  }
 }
 
 function handleSubmit() {
@@ -706,14 +717,12 @@ function handleSubmit() {
   status.textContent = 'Mengirim jawaban...';
   status.style.color = 'var(--muted)';
 
-  document.getElementById('payloadInput').value = JSON.stringify(data);
-  document.getElementById('submitForm').submit();
+  var url = 'https://script.google.com/macros/s/AKfycbwt9fJOMiRV6H7GZPNRhgK1n3AK5zfq_txc4vrdwJoz4qInaSCR_PtuI95K5NJ1S-lM/exec'
+    + '?callback=handleResponse&data=' + encodeURIComponent(JSON.stringify(data));
 
-  setTimeout(function() {
-    status.textContent = '✓ Jawaban berhasil dikirim! Terima kasih.';
-    status.style.color = '#1c6b1c';
-    btn.textContent = 'Terkirim';
-  }, 1500);
+  var script = document.createElement('script');
+  script.src = url;
+  document.body.appendChild(script);
 }
 </script>
 
