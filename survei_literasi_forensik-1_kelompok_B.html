@@ -684,21 +684,6 @@ function collectData() {
   return d;
 }
 
-function handleResponse(response) {
-  var btn = document.getElementById('submitBtn');
-  var status = document.getElementById('submitStatus');
-  if (response.status === 'ok') {
-    status.textContent = '✓ Jawaban berhasil dikirim! Terima kasih.';
-    status.style.color = '#1c6b1c';
-    btn.textContent = 'Terkirim';
-  } else {
-    status.textContent = '✗ Gagal: ' + (response.message || 'unknown error') + '. Coba lagi.';
-    status.style.color = '#c0392b';
-    btn.disabled = false;
-    btn.style.opacity = '1';
-  }
-}
-
 function handleSubmit() {
   var btn = document.getElementById('submitBtn');
   var status = document.getElementById('submitStatus');
@@ -717,12 +702,23 @@ function handleSubmit() {
   status.textContent = 'Mengirim jawaban...';
   status.style.color = 'var(--muted)';
 
-  var url = 'https://script.google.com/macros/s/AKfycbzONajUKfrNsONkDJCgNI7N4WyGbq66e5D9pFz7WVc06L0U_Wf4ZJchYEBLpQm-PeTQ/exec'
-    + '?callback=handleResponse&data=' + encodeURIComponent(JSON.stringify(data));
+  var params = new URLSearchParams();
+  params.append('data', JSON.stringify(data));
 
-  var script = document.createElement('script');
-  script.src = url;
-  document.body.appendChild(script);
+  fetch('https://script.google.com/macros/s/AKfycbzONajUKfrNsONkDJCgNI7N4WyGbq66e5D9pFz7WVc06L0U_Wf4ZJchYEBLpQm-PeTQ/exec', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: params
+  }).then(function() {
+    status.textContent = '✓ Jawaban berhasil dikirim! Terima kasih.';
+    status.style.color = '#1c6b1c';
+    btn.textContent = 'Terkirim';
+  }).catch(function(err) {
+    status.textContent = '✗ Gagal: coba lagi.';
+    status.style.color = '#c0392b';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  });
 }
 </script>
 
