@@ -206,13 +206,13 @@
       <span class="section-title">Data Responden</span>
     </div>
     <div class="identity-grid">
-      <div class="field"><label>Kode Responden (diisi peneliti)</label><input type="text" placeholder="Contoh: R-01" data-field="kode"></div>
-      <div class="field"><label>Usia</label><input type="text" placeholder="Contoh: 24 tahun" data-field="usia"></div>
+      <div class="field"><label>Kode Responden (diisi peneliti)</label><input type="text" placeholder="Contoh: R-01" data-field="kode" required></div>
+      <div class="field"><label>Usia</label><input type="text" placeholder="Contoh: 24 tahun" data-field="usia" required></div>
       <div class="field"><label>Pendidikan Terakhir</label>
-        <select data-field="pendidikan"><option value="">— Pilih —</option><option>SMA / Sederajat</option><option>D3 / D4</option><option>S1</option><option>S2 / S3</option><option>Lainnya</option></select>
+        <select data-field="pendidikan" required><option value="">— Pilih —</option><option>SMA / Sederajat</option><option>D3 / D4</option><option>S1</option><option>S2 / S3</option><option>Lainnya</option></select>
       </div>
       <div class="field"><label>Seberapa sering membaca berita online?</label>
-        <select data-field="frekuensi_baca"><option value="">— Pilih —</option><option>Setiap hari</option><option>Beberapa kali seminggu</option><option>Sesekali saja</option><option>Jarang sekali</option></select>
+        <select data-field="frekuensi_baca" required><option value="">— Pilih —</option><option>Setiap hari</option><option>Beberapa kali seminggu</option><option>Sesekali saja</option><option>Jarang sekali</option></select>
       </div>
     </div>
     <div style="margin-top:18px;">
@@ -293,8 +293,8 @@
     <div class="q-block">
       <div class="q-num">Pertanyaan B1 · 05 — Kesan Umum</div>
       <div class="q-text">Tuliskan <strong>2 hal yang paling menarik atau mencolok</strong> yang Anda ingat setelah membaca berita ini. <span class="q-dim dim-analisis">Kesan</span></div>
-      <input class="isian" type="text" placeholder="Hal menarik 1" data-field="b1q5_1" style="margin-bottom:8px;">
-      <input class="isian" type="text" placeholder="Hal menarik 2" data-field="b1q5_2">
+      <input class="isian" type="text" placeholder="Hal menarik 1" data-field="b1q5_1" style="margin-bottom:8px;" required>
+      <input class="isian" type="text" placeholder="Hal menarik 2" data-field="b1q5_2" required>
     </div>
 
     <div class="q-block">
@@ -318,7 +318,7 @@
         <label class="radio-item"><input type="radio" name="b1q7"><span class="radio-dot"></span><span class="radio-label">Tidak tahu / tidak memperhatikan</span></label>
       </div>
       <p style="font-size:12.5px;color:var(--muted);font-style:italic;margin:8px 0 4px;">Jika ada, jelaskan informasi apa yang kurang:</p>
-      <input class="isian" type="text" placeholder="Tulis di sini..." data-field="b1q7_text">
+      <input class="isian" type="text" placeholder="Tulis di sini..." data-field="b1q7_text" required>
     </div>
 
     <div class="q-block">
@@ -418,8 +418,8 @@
     <div class="q-block">
       <div class="q-num">Pertanyaan B2 · 05 — Hal yang Diingat</div>
       <div class="q-text">Tuliskan <strong>2 kata atau angka</strong> yang paling Anda ingat dari berita PHK ini. <span class="q-dim dim-analisis">Kesan</span></div>
-      <input class="isian" type="text" placeholder="Kata/angka 1" data-field="b2q5_1" style="margin-bottom:8px;">
-      <input class="isian" type="text" placeholder="Kata/angka 2" data-field="b2q5_2">
+      <input class="isian" type="text" placeholder="Kata/angka 1" data-field="b2q5_1" style="margin-bottom:8px;" required>
+      <input class="isian" type="text" placeholder="Kata/angka 2" data-field="b2q5_2" required>
     </div>
 
     <div class="q-block">
@@ -583,16 +583,119 @@ function collectData() {
   return d;
 }
 
+function getFieldLabel(field) {
+  var labels = {
+    kode: 'Kode Responden', usia: 'Usia', pendidikan: 'Pendidikan Terakhir',
+    frekuensi_baca: 'Frekuensi membaca berita online',
+    b1q1: 'B1 · 01 — Rasa khawatir/panik',
+    b1q2: 'B1 · 02 — Dorongan membagikan berita',
+    b1q3: 'B1 · 03 — Akurasi judul "Kiamat Internet"',
+    b1q4: 'B1 · 04 — Kompetensi NASA',
+    b1q5_1: 'B1 · 05 — Hal menarik 1',
+    b1q5_2: 'B1 · 05 — Hal menarik 2',
+    b1q6: 'B1 · 06 — Kesesuaian judul',
+    b1q7: 'B1 · 07 — Informasi yang kurang',
+    b1q7_text: 'B1 · 07 — Jelaskan informasi yang kurang',
+    b1q8: 'B1 · 08 — Kredibilitas sumber',
+    b1q9: 'B1 · 09 — Kesan akhir',
+    b2q1: 'B2 · 01 — Rasa khawatir PHK',
+    b2q2: 'B2 · 02 — Dorongan membagikan berita',
+    b2q3: 'B2 · 03 — Kepercayaan PHK melonjak',
+    b2q4: 'B2 · 04 — Gambaran lengkap dan jujur',
+    b2q5_1: 'B2 · 05 — Kata/angka 1',
+    b2q5_2: 'B2 · 05 — Kata/angka 2',
+    b2q6: 'B2 · 06 — Kemudahan memahami angka',
+    b2q7: 'B2 · 07 — Informasi tambahan',
+    b2q8: 'B2 · 08 — Kepercayaan data',
+    b2q9: 'B2 · 09 — Situasi PHK',
+    b2q10: 'B2 · 10 — Perilaku nyata',
+    rf1: 'Refleksi · 01 — Kepercayaan pada media',
+    rf2: 'Refleksi · 02 — Perubahan sikap'
+  };
+  return labels[field] || field;
+}
+
 function handleSubmit() {
   var status = document.getElementById('submitStatus');
-  var data = collectData();
+  status.style.display = 'none';
 
-  if (!data.kode) {
+  var fields = ['kode','usia','pendidikan','frekuensi_baca'];
+  var likert = ['b1q1','b1q2','b1q3','b2q1','b2q2','b2q3','rf1'];
+  var radio = ['b1q4','b1q6','b1q7','b1q8','b1q9',
+               'b2q4','b2q6','b2q7','b2q8','b2q9','b2q10','rf2'];
+  var isian = ['b1q5_1','b1q5_2','b1q7_text','b2q5_1','b2q5_2'];
+
+  var firstMissing = null;
+
+  // Check text fields
+  for (var i = 0; i < fields.length; i++) {
+    var el = document.querySelector('[data-field="' + fields[i] + '"]');
+    if (el && (!el.value || el.value === '')) {
+      if (!firstMissing) firstMissing = getFieldLabel(fields[i]);
+      el.style.borderBottom = '2px solid #c0392b';
+    } else if (el) {
+      el.style.borderBottom = '';
+    }
+  }
+
+  // Check isian text inputs
+  for (var i = 0; i < isian.length; i++) {
+    var el = document.querySelector('[data-field="' + isian[i] + '"]');
+    if (el && (!el.value || el.value === '')) {
+      if (!firstMissing) firstMissing = getFieldLabel(isian[i]);
+      el.style.borderBottom = '2px solid #c0392b';
+    } else if (el) {
+      el.style.borderBottom = '';
+    }
+  }
+
+  // Check likert
+  for (var i = 0; i < likert.length; i++) {
+    var checked = document.querySelector('input[name="' + likert[i] + '"]:checked');
+    if (!checked) {
+      if (!firstMissing) firstMissing = getFieldLabel(likert[i]);
+      var qblock = document.querySelector('input[name="' + likert[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '3px solid #c0392b';
+      }
+    } else {
+      var qblock = document.querySelector('input[name="' + likert[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '';
+      }
+    }
+  }
+
+  // Check radio
+  for (var i = 0; i < radio.length; i++) {
+    var checked = document.querySelector('input[name="' + radio[i] + '"]:checked');
+    if (!checked) {
+      if (!firstMissing) firstMissing = getFieldLabel(radio[i]);
+      var qblock = document.querySelector('input[name="' + radio[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '3px solid #c0392b';
+      }
+    } else {
+      var qblock = document.querySelector('input[name="' + radio[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '';
+      }
+    }
+  }
+
+  if (firstMissing) {
     status.style.display = 'block';
-    status.textContent = '⚠️ Mohon isi Kode Responden terlebih dahulu.';
+    status.textContent = '⚠️ ' + firstMissing + ' — harap diisi terlebih dahulu.';
     status.style.color = '#c0392b';
+    window.scrollTo(0, 0);
     return;
   }
+
+  var data = collectData();
 
   var form = document.createElement('form');
   form.method = 'POST';

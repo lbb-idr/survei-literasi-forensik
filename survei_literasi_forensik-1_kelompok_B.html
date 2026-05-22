@@ -206,13 +206,13 @@
       <span class="section-title">Data Responden</span>
     </div>
     <div class="identity-grid">
-      <div class="field"><label>Kode Responden (diisi peneliti)</label><input type="text" placeholder="Contoh: R-01" data-field="kode"></div>
-      <div class="field"><label>Usia</label><input type="text" placeholder="Contoh: 24 tahun" data-field="usia"></div>
+      <div class="field"><label>Kode Responden (diisi peneliti)</label><input type="text" placeholder="Contoh: R-01" data-field="kode" required></div>
+      <div class="field"><label>Usia</label><input type="text" placeholder="Contoh: 24 tahun" data-field="usia" required></div>
       <div class="field"><label>Pendidikan Terakhir</label>
-        <select data-field="pendidikan"><option value="">— Pilih —</option><option>SMA / Sederajat</option><option>D3 / D4</option><option>S1</option><option>S2 / S3</option><option>Lainnya</option></select>
+        <select data-field="pendidikan" required><option value="">— Pilih —</option><option>SMA / Sederajat</option><option>D3 / D4</option><option>S1</option><option>S2 / S3</option><option>Lainnya</option></select>
       </div>
       <div class="field"><label>Seberapa sering membaca berita online?</label>
-        <select data-field="frekuensi_baca"><option value="">— Pilih —</option><option>Setiap hari</option><option>Beberapa kali seminggu</option><option>Sesekali saja</option><option>Jarang sekali</option></select>
+        <select data-field="frekuensi_baca" required><option value="">— Pilih —</option><option>Setiap hari</option><option>Beberapa kali seminggu</option><option>Sesekali saja</option><option>Jarang sekali</option></select>
       </div>
     </div>
     <div style="margin-top:18px;">
@@ -376,8 +376,8 @@
       <div class="q-num">Pertanyaan B1 · 05 — Scanning &amp; Neutralizing</div>
       <div class="q-text">Tuliskan <strong>minimal 2 kata atau frasa dramatis/emosional</strong> yang Anda temukan dalam berita ini, lalu tulis versi netralnya. <span class="q-dim dim-analisis">Analisis</span></div>
       <p style="font-size:12.5px;color:var(--muted);font-style:italic;margin-bottom:6px;">Contoh: "Kiamat" → "Gangguan besar"</p>
-      <input class="isian" type="text" placeholder="Kata dramatis 1 → versi netral" data-field="b1q5_1" style="margin-bottom:8px;">
-      <input class="isian" type="text" placeholder="Kata dramatis 2 → versi netral" data-field="b1q5_2">
+      <input class="isian" type="text" placeholder="Kata dramatis 1 → versi netral" data-field="b1q5_1" style="margin-bottom:8px;" required>
+      <input class="isian" type="text" placeholder="Kata dramatis 2 → versi netral" data-field="b1q5_2" required>
     </div>
 
     <div class="q-block">
@@ -399,7 +399,7 @@
         <label class="radio-item"><input type="radio" name="b1q7"><span class="radio-dot"></span><span class="radio-label">Tidak ada penjelasan teknis — berita langsung lompat ke kesimpulan "kiamat"</span></label>
       </div>
       <p style="font-size:12.5px;color:var(--muted);font-style:italic;margin:8px 0 4px;">Jika ada loncatan logika, jelaskan secara singkat:</p>
-      <input class="isian" type="text" placeholder="Tulis di sini..." data-field="b1q7_text">
+      <input class="isian" type="text" placeholder="Tulis di sini..." data-field="b1q7_text" required>
     </div>
 
     <div class="q-block">
@@ -498,8 +498,8 @@
     <div class="q-block">
       <div class="q-num">Pertanyaan B2 · 05 — Scanning &amp; Identifikasi Diksi</div>
       <div class="q-text">Tuliskan <strong>minimal 2 kata atau frasa</strong> dalam berita ini yang membuat situasinya terdengar lebih krisis atau alarmis daripada yang sebenarnya. <span class="q-dim dim-analisis">Analisis</span></div>
-      <input class="isian" type="text" placeholder="Kata/frasa 1" data-field="b2q5_1" style="margin-bottom:8px;">
-      <input class="isian" type="text" placeholder="Kata/frasa 2" data-field="b2q5_2">
+      <input class="isian" type="text" placeholder="Kata/frasa 1" data-field="b2q5_1" style="margin-bottom:8px;" required>
+      <input class="isian" type="text" placeholder="Kata/frasa 2" data-field="b2q5_2" required>
     </div>
 
     <div class="q-block">
@@ -684,16 +684,118 @@ function collectData() {
   return d;
 }
 
+function getFieldLabel(field) {
+  var labels = {
+    kode: 'Kode Responden', usia: 'Usia', pendidikan: 'Pendidikan Terakhir',
+    frekuensi_baca: 'Frekuensi membaca berita online',
+    b1q1: 'B1 · 01 — Rasa khawatir/panik',
+    b1q2: 'B1 · 02 — Dorongan membagikan berita',
+    b1q3: 'B1 · 03 — Akurasi judul "Kiamat Internet"',
+    b1q4: 'B1 · 04 — Kompetensi NASA',
+    b1q5_1: 'B1 · 05 — Kata dramatis 1',
+    b1q5_2: 'B1 · 05 — Kata dramatis 2',
+    b1q6: 'B1 · 06 — Mapping / Reverse Framing',
+    b1q7: 'B1 · 07 — Verifikasi Logika',
+    b1q7_text: 'B1 · 07 — Jelaskan loncatan logika',
+    b1q8: 'B1 · 08 — Triangulasi Data',
+    b1q9: 'B1 · 09 — Kesimpulan akhir',
+    b2q1: 'B2 · 01 — Rasa khawatir PHK',
+    b2q2: 'B2 · 02 — Dorongan membagikan berita',
+    b2q3: 'B2 · 03 — Kepercayaan PHK melonjak',
+    b2q4: 'B2 · 04 — Gambaran lengkap dan jujur',
+    b2q5_1: 'B2 · 05 — Kata/frasa 1',
+    b2q5_2: 'B2 · 05 — Kata/frasa 2',
+    b2q6: 'B2 · 06 — Verifikasi Logika',
+    b2q7: 'B2 · 07 — Cek Perbandingan',
+    b2q8: 'B2 · 08 — Verifikasi Sumber',
+    b2q9: 'B2 · 09 — Kesimpulan Akhir',
+    b2q10: 'B2 · 10 — Perilaku nyata',
+    rf1: 'Refleksi · 01 — Kepercayaan pada media',
+    rf2: 'Refleksi · 02 — Perubahan sikap',
+    rf3: 'Refleksi · 03 — Tahapan paling membantu',
+    rf3s: 'Refleksi · 03 — Skor bantuan teknik',
+    rf3_pengalaman: 'Refleksi · 03 — Pengalaman menggunakan teknik'
+  };
+  return labels[field] || field;
+}
+
 function handleSubmit() {
   var status = document.getElementById('submitStatus');
-  var data = collectData();
+  status.style.display = 'none';
 
-  if (!data.kode) {
+  var fields = ['kode','usia','pendidikan','frekuensi_baca'];
+  var likert = ['b1q1','b1q2','b1q3','b2q1','b2q2','b2q3','rf1','rf3s'];
+  var radio = ['b1q4','b1q6','b1q7','b1q8','b1q9',
+               'b2q4','b2q6','b2q7','b2q8','b2q9','b2q10','rf2','rf3'];
+  var isian = ['b1q5_1','b1q5_2','b1q7_text','b2q5_1','b2q5_2','rf3_pengalaman'];
+
+  var firstMissing = null;
+
+  for (var i = 0; i < fields.length; i++) {
+    var el = document.querySelector('[data-field="' + fields[i] + '"]');
+    if (el && (!el.value || el.value === '')) {
+      if (!firstMissing) firstMissing = getFieldLabel(fields[i]);
+      el.style.borderBottom = '2px solid #c0392b';
+    } else if (el) {
+      el.style.borderBottom = '';
+    }
+  }
+
+  for (var i = 0; i < isian.length; i++) {
+    var el = document.querySelector('[data-field="' + isian[i] + '"]');
+    if (el && (!el.value || el.value === '')) {
+      if (!firstMissing) firstMissing = getFieldLabel(isian[i]);
+      el.style.borderBottom = '2px solid #c0392b';
+    } else if (el) {
+      el.style.borderBottom = '';
+    }
+  }
+
+  for (var i = 0; i < likert.length; i++) {
+    var checked = document.querySelector('input[name="' + likert[i] + '"]:checked');
+    if (!checked) {
+      if (!firstMissing) firstMissing = getFieldLabel(likert[i]);
+      var qblock = document.querySelector('input[name="' + likert[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '3px solid #c0392b';
+      }
+    } else {
+      var qblock = document.querySelector('input[name="' + likert[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '';
+      }
+    }
+  }
+
+  for (var i = 0; i < radio.length; i++) {
+    var checked = document.querySelector('input[name="' + radio[i] + '"]:checked');
+    if (!checked) {
+      if (!firstMissing) firstMissing = getFieldLabel(radio[i]);
+      var qblock = document.querySelector('input[name="' + radio[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '3px solid #c0392b';
+      }
+    } else {
+      var qblock = document.querySelector('input[name="' + radio[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '';
+      }
+    }
+  }
+
+  if (firstMissing) {
     status.style.display = 'block';
-    status.textContent = '⚠️ Mohon isi Kode Responden terlebih dahulu.';
+    status.textContent = '⚠️ ' + firstMissing + ' — harap diisi terlebih dahulu.';
     status.style.color = '#c0392b';
+    window.scrollTo(0, 0);
     return;
   }
+
+  var data = collectData();
 
   var form = document.createElement('form');
   form.method = 'POST';
