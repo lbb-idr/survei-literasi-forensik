@@ -1,9 +1,15 @@
 function doPost(e) {
   try {
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    const data = JSON.parse(e.postData.contents);
+    var data = {};
 
-    const columns = [
+    if (e.parameter && e.parameter.data) {
+      data = JSON.parse(e.parameter.data);
+    } else if (e.postData && e.postData.contents) {
+      data = JSON.parse(e.postData.contents);
+    }
+
+    var columns = [
       'timestamp', 'group', 'kode', 'usia', 'pendidikan', 'frekuensi_baca',
       'b1q1', 'b1q2', 'b1q3', 'b1q4',
       'b1q5_1', 'b1q5_2',
@@ -18,7 +24,7 @@ function doPost(e) {
       sheet.appendRow(columns);
     }
 
-    const row = columns.map(function(col) {
+    var row = columns.map(function(col) {
       return data[col] || '';
     });
     sheet.appendRow(row);
