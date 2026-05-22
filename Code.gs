@@ -222,15 +222,56 @@ function handleRequest(e) {
       'rf1', 'rf2', 'rf3', 'rf3s', 'rf3_pengalaman', 'rf_komentar'
     ];
 
+    var COLUMN_LABELS = {};
+    COLUMN_LABELS['timestamp'] = 'Timestamp';
+    COLUMN_LABELS['group'] = 'Grup';
+    COLUMN_LABELS['kode'] = 'Kode Responden';
+    COLUMN_LABELS['usia'] = 'Usia';
+    COLUMN_LABELS['pendidikan'] = 'Pendidikan Terakhir';
+    COLUMN_LABELS['frekuensi_baca'] = 'Frekuensi Baca Berita';
+    COLUMN_LABELS['b1q1'] = 'B1.01 Khawatir/Panik (1-5)';
+    COLUMN_LABELS['b1q2'] = 'B1.02 Dorongan Share (1-5)';
+    COLUMN_LABELS['b1q3'] = 'B1.03 Akurasi Judul (1-5)';
+    COLUMN_LABELS['b1q4'] = 'B1.04 Kompetensi NASA';
+    COLUMN_LABELS['b1q5_1'] = 'B1.05a Hal Menarik 1';
+    COLUMN_LABELS['b1q5_2'] = 'B1.05b Hal Menarik 2';
+    COLUMN_LABELS['b1q6'] = 'B1.06 Kesesuaian Judul';
+    COLUMN_LABELS['b1q7'] = 'B1.07 Informasi Kurang';
+    COLUMN_LABELS['b1q7_text'] = 'B1.07 Jelaskan Info Kurang';
+    COLUMN_LABELS['b1q8'] = 'B1.08 Kredibilitas Sumber';
+    COLUMN_LABELS['b1q9'] = 'B1.09 Kesan Akhir';
+    COLUMN_LABELS['b2q1'] = 'B2.01 Khawatir PHK (1-5)';
+    COLUMN_LABELS['b2q2'] = 'B2.02 Dorongan Share PHK (1-5)';
+    COLUMN_LABELS['b2q3'] = 'B2.03 Percaya PHK Melonjak (1-5)';
+    COLUMN_LABELS['b2q4'] = 'B2.04 Gambaran Lengkap PHK';
+    COLUMN_LABELS['b2q5_1'] = 'B2.05a Kata/Angka 1';
+    COLUMN_LABELS['b2q5_2'] = 'B2.05b Kata/Angka 2';
+    COLUMN_LABELS['b2q6'] = 'B2.06 Mudah Paham Angka';
+    COLUMN_LABELS['b2q7'] = 'B2.07 Info Tambahan PHK';
+    COLUMN_LABELS['b2q8'] = 'B2.08 Kepercayaan Data';
+    COLUMN_LABELS['b2q9'] = 'B2.09 Situasi PHK';
+    COLUMN_LABELS['b2q10'] = 'B2.10 Perilaku Nyata';
+    COLUMN_LABELS['rf1'] = 'RF.01 Kepercayaan Media (1-5)';
+    COLUMN_LABELS['rf2'] = 'RF.02 Perubahan Sikap';
+    COLUMN_LABELS['rf3'] = 'RF.03 Tahapan Terbantu';
+    COLUMN_LABELS['rf3s'] = 'RF.03 Skor Teknik (1-5)';
+    COLUMN_LABELS['rf3_pengalaman'] = 'RF.03 Pengalaman Teknik';
+    COLUMN_LABELS['rf_komentar'] = 'RF.04 Komentar Bebas';
+
+    var labels = columns.map(function(c) { return COLUMN_LABELS[c] || c; });
+
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName('Data');
     if (!sheet) {
       sheet = ss.insertSheet('Data');
-      sheet.appendRow(columns);
+      sheet.appendRow(labels);
     }
 
     if (sheet.getLastRow() === 0) {
-      sheet.appendRow(columns);
+      sheet.appendRow(labels);
+    } else if (sheet.getLastRow() === 1) {
+      // Replace old short-code headers with descriptive labels
+      sheet.getRange(1, 1, 1, labels.length).setValues([labels]);
     }
 
     var row = columns.map(function(col) {
@@ -491,4 +532,52 @@ function fixGroupData() {
     sheet.getRange('Z1').setValue('fixGroupData: ' + log.join('; ') + ' — ' + new Date());
     console.log('fixGroupData:', log.join(', '));
   }
+}
+
+function renameHeaders() {
+  var LABEL = {};
+  LABEL['timestamp'] = 'Timestamp';
+  LABEL['group'] = 'Grup';
+  LABEL['kode'] = 'Kode Responden';
+  LABEL['usia'] = 'Usia';
+  LABEL['pendidikan'] = 'Pendidikan Terakhir';
+  LABEL['frekuensi_baca'] = 'Frekuensi Baca Berita';
+  LABEL['b1q1'] = 'B1.01 Khawatir/Panik (1-5)';
+  LABEL['b1q2'] = 'B1.02 Dorongan Share (1-5)';
+  LABEL['b1q3'] = 'B1.03 Akurasi Judul (1-5)';
+  LABEL['b1q4'] = 'B1.04 Kompetensi NASA';
+  LABEL['b1q5_1'] = 'B1.05a Hal Menarik 1';
+  LABEL['b1q5_2'] = 'B1.05b Hal Menarik 2';
+  LABEL['b1q6'] = 'B1.06 Kesesuaian Judul';
+  LABEL['b1q7'] = 'B1.07 Informasi Kurang';
+  LABEL['b1q7_text'] = 'B1.07 Jelaskan Info Kurang';
+  LABEL['b1q8'] = 'B1.08 Kredibilitas Sumber';
+  LABEL['b1q9'] = 'B1.09 Kesan Akhir';
+  LABEL['b2q1'] = 'B2.01 Khawatir PHK (1-5)';
+  LABEL['b2q2'] = 'B2.02 Dorongan Share PHK (1-5)';
+  LABEL['b2q3'] = 'B2.03 Percaya PHK Melonjak (1-5)';
+  LABEL['b2q4'] = 'B2.04 Gambaran Lengkap PHK';
+  LABEL['b2q5_1'] = 'B2.05a Kata/Angka 1';
+  LABEL['b2q5_2'] = 'B2.05b Kata/Angka 2';
+  LABEL['b2q6'] = 'B2.06 Mudah Paham Angka';
+  LABEL['b2q7'] = 'B2.07 Info Tambahan PHK';
+  LABEL['b2q8'] = 'B2.08 Kepercayaan Data';
+  LABEL['b2q9'] = 'B2.09 Situasi PHK';
+  LABEL['b2q10'] = 'B2.10 Perilaku Nyata';
+  LABEL['rf1'] = 'RF.01 Kepercayaan Media (1-5)';
+  LABEL['rf2'] = 'RF.02 Perubahan Sikap';
+  LABEL['rf3'] = 'RF.03 Tahapan Terbantu';
+  LABEL['rf3s'] = 'RF.03 Skor Teknik (1-5)';
+  LABEL['rf3_pengalaman'] = 'RF.03 Pengalaman Teknik';
+  LABEL['rf_komentar'] = 'RF.04 Komentar Bebas';
+
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Data');
+  if (!sheet || sheet.getLastRow() < 1) return;
+
+  var lastCol = sheet.getLastColumn();
+  var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
+  var newHeaders = headers.map(function(h) { return LABEL[h] || h; });
+  sheet.getRange(1, 1, 1, lastCol).setValues([newHeaders]);
+  sheet.getRange('Z1').setValue('renameHeaders: ' + new Date());
 }
