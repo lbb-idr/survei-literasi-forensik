@@ -1,17 +1,24 @@
 function doPost(e) {
-  // Check if this is a form creation request
-  var contents = (e && e.postData && e.postData.contents) || (e && e.parameter && e.parameter.data) || '';
-  if (typeof contents === 'string' && contents.length > 0) {
-    try {
-      var parsed = JSON.parse(contents);
+  try {
+    var body = (e && e.postData && e.postData.contents) || '';
+    if (typeof body === 'string' && body.length > 0) {
+      var parsed = JSON.parse(body);
       if (parsed && parsed.action === 'createForm') {
-        return createFormFromJson(parsed);
+        return createFormFromJson(parsed.definition || parsed);
       }
-    } catch(err) { /* not JSON or not createForm, continue to handleRequest */ }
-  }
-  // Check query string for createForm action
-  if (e && e.parameter && e.parameter.action === 'createForm' && e.parameter.definition) {
-    return createFormFromJson(JSON.parse(e.parameter.definition));
+      if (parsed && parsed.kode !== undefined) {
+        return handleRequest(e);
+      }
+    }
+  } catch(err) { /* not JSON body, continue */ }
+
+  if (e && e.parameter) {
+    if (e.parameter.action === 'createForm' && e.parameter.definition) {
+      return createFormFromJson(JSON.parse(e.parameter.definition));
+    }
+    if (e.parameter.data) {
+      return handleRequest(e);
+    }
   }
   return handleRequest(e);
 }
@@ -280,7 +287,7 @@ function setupDashboard() {
 
   // ── Ringkasan ──
   dash.getRange('A4').setValue('RINGKASAN').setFontSize(13).setFontWeight('bold');
-  dash.getRange('A4').setBackground('#e8e0d0').setPaddingTop(4).setPaddingBottom(4);
+  dash.getRange('A4').setBackground('#e8e0d0');
 
   var totalFormula = '=COUNTA(' + dn + '!A2:A' + lastDataRow + ')';
   dash.getRange('A5').setFormula('="Total Responden:  " & ' + totalFormula).setFontSize(12).setFontWeight('bold');
