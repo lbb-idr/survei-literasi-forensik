@@ -219,7 +219,8 @@ function handleRequest(e) {
       'b2q1', 'b2q2', 'b2q3', 'b2q4',
       'b2q5_1', 'b2q5_2',
       'b2q6', 'b2q7', 'b2q8', 'b2q9', 'b2q10',
-      'rf1', 'rf2', 'rf3', 'rf3s', 'rf3_pengalaman', 'rf_komentar'
+      'rf1', 'rf2', 'rf3', 'rf3s', 'rf3_pengalaman', 'rf_komentar',
+      'jenis_kelamin', 'jurusan', 'pretrust', 'b1_check', 'b2_check'
     ];
 
     var COLUMN_LABELS = {};
@@ -257,6 +258,11 @@ function handleRequest(e) {
     COLUMN_LABELS['rf3s'] = 'RF.03 Skor Teknik (1-5)';
     COLUMN_LABELS['rf3_pengalaman'] = 'RF.03 Pengalaman Teknik';
     COLUMN_LABELS['rf_komentar'] = 'RF.04 Komentar Bebas';
+    COLUMN_LABELS['jenis_kelamin'] = 'Jenis Kelamin';
+    COLUMN_LABELS['jurusan'] = 'Jurusan/Prodi';
+    COLUMN_LABELS['pretrust'] = 'Pre Kepercayaan Media (1-5)';
+    COLUMN_LABELS['b1_check'] = 'B1 Atten Check: Sumber Berita';
+    COLUMN_LABELS['b2_check'] = 'B2 Atten Check: Sektor PHK';
 
     var labels = columns.map(function(c) { return COLUMN_LABELS[c] || c; });
 
@@ -570,6 +576,11 @@ function renameHeaders() {
   LABEL['rf3s'] = 'RF.03 Skor Teknik (1-5)';
   LABEL['rf3_pengalaman'] = 'RF.03 Pengalaman Teknik';
   LABEL['rf_komentar'] = 'RF.04 Komentar Bebas';
+  LABEL['jenis_kelamin'] = 'Jenis Kelamin';
+  LABEL['jurusan'] = 'Jurusan/Prodi';
+  LABEL['pretrust'] = 'Pre Kepercayaan Media (1-5)';
+  LABEL['b1_check'] = 'B1 Atten Check: Sumber Berita';
+  LABEL['b2_check'] = 'B2 Atten Check: Sektor PHK';
 
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName('Data');

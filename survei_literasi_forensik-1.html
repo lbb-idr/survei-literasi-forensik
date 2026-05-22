@@ -214,10 +214,33 @@
       <div class="field"><label>Seberapa sering membaca berita online?</label>
         <select data-field="frekuensi_baca" required><option value="">— Pilih —</option><option>Setiap hari</option><option>Beberapa kali seminggu</option><option>Sesekali saja</option><option>Jarang sekali</option></select>
       </div>
+      <div class="field"><label>Jenis Kelamin</label>
+        <select data-field="jenis_kelamin" required><option value="">— Pilih —</option><option>Laki-laki</option><option>Perempuan</option></select>
+      </div>
+      <div class="field"><label>Jurusan / Program Studi</label><input type="text" placeholder="Contoh: Pendidikan Bahasa Inggris" data-field="jurusan" required></div>
     </div>
     <div style="margin-top:18px;">
       <div class="field"><label>Kelompok</label>
         <div style="margin-top:4px;font-size:14px;font-weight:700;padding:8px 12px;border:2px solid var(--grp-a);border-radius:4px;color:var(--grp-a);">A — Kelompok Kontrol (Baca biasa)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PRE-TRUST ═══ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="font-size:28px;">Pre</span>
+      <span class="section-title">Kepercayaan Awal terhadap Media</span>
+    </div>
+    <p style="font-size:13px;color:var(--muted);font-style:italic;margin-bottom:6px;">Jawab pertanyaan ini <strong>sebelum</strong> membaca berita apa pun.</p>
+    <div class="q-block" style="border-bottom:none;">
+      <div class="q-text">Secara umum, seberapa besar kepercayaan Anda terhadap <strong>media berita digital Indonesia</strong>?</div>
+      <div class="likert">
+        <div class="likert-item"><input type="radio" name="pretrust" id="pretrust_1"><label for="pretrust_1"><span class="lk-num">1</span><span class="lk-desc">Sangat tidak percaya</span></label></div>
+        <div class="likert-item"><input type="radio" name="pretrust" id="pretrust_2"><label for="pretrust_2"><span class="lk-num">2</span><span class="lk-desc">Kurang percaya</span></label></div>
+        <div class="likert-item"><input type="radio" name="pretrust" id="pretrust_3"><label for="pretrust_3"><span class="lk-num">3</span><span class="lk-desc">Netral</span></label></div>
+        <div class="likert-item"><input type="radio" name="pretrust" id="pretrust_4"><label for="pretrust_4"><span class="lk-num">4</span><span class="lk-desc">Cukup percaya</span></label></div>
+        <div class="likert-item"><input type="radio" name="pretrust" id="pretrust_5"><label for="pretrust_5"><span class="lk-num">5</span><span class="lk-desc">Sangat percaya</span></label></div>
       </div>
     </div>
   </div>
@@ -291,10 +314,10 @@
 
     <!-- DIMENSI ANALISIS — GRUP A (generik) -->
     <div class="q-block">
-      <div class="q-num">Pertanyaan B1 · 05 — Kesan Umum</div>
-      <div class="q-text">Tuliskan <strong>2 hal yang paling menarik atau mencolok</strong> yang Anda ingat setelah membaca berita ini. <span class="q-dim dim-analisis">Kesan</span></div>
-      <input class="isian" type="text" placeholder="Hal menarik 1" data-field="b1q5_1" style="margin-bottom:8px;" required>
-      <input class="isian" type="text" placeholder="Hal menarik 2" data-field="b1q5_2" required>
+      <div class="q-num">Pertanyaan B1 · 05 — Kata/Frasa Penting</div>
+      <div class="q-text">Menurut Anda, adakah <strong>kata atau frasa</strong> dalam berita ini yang terkesan berlebihan atau dramatis? Sebutkan. <span class="q-dim dim-analisis">Analisis</span></div>
+      <input class="isian" type="text" placeholder="Kata/frasa berlebihan 1" data-field="b1q5_1" style="margin-bottom:8px;" required>
+      <input class="isian" type="text" placeholder="Kata/frasa berlebihan 2" data-field="b1q5_2" required>
     </div>
 
     <div class="q-block">
@@ -340,6 +363,18 @@
         <label class="radio-item"><input type="radio" name="b1q9"><span class="radio-dot"></span><span class="radio-label">Cukup menarik — topiknya membuat saya penasaran</span></label>
         <label class="radio-item"><input type="radio" name="b1q9"><span class="radio-dot"></span><span class="radio-label">Biasa saja — tidak ada yang istimewa</span></label>
         <label class="radio-item"><input type="radio" name="b1q9"><span class="radio-dot"></span><span class="radio-label">Membingungkan — sulit memahami maksud berita</span></label>
+      </div>
+    </div>
+
+    <!-- ATTENTION CHECK B1 -->
+    <div class="q-block" style="background:#f0f4f8;border:1px solid #d0dae8;padding:16px;border-radius:3px;">
+      <div class="q-num">Cek Pemahaman</div>
+      <div class="q-text">Berdasarkan berita yang baru Anda baca, siapa <strong>lembaga atau sumber</strong> yang disebut dalam berita tentang badai matahari ini?</div>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="b1_check"><span class="radio-dot"></span><span class="radio-label">Kemenkominfo</span></label>
+        <label class="radio-item"><input type="radio" name="b1_check"><span class="radio-dot"></span><span class="radio-label">NASA</span></label>
+        <label class="radio-item"><input type="radio" name="b1_check"><span class="radio-dot"></span><span class="radio-label">BMKG</span></label>
+        <label class="radio-item"><input type="radio" name="b1_check"><span class="radio-dot"></span><span class="radio-label">WHO</span></label>
       </div>
     </div>
 
@@ -416,10 +451,10 @@
 
     <!-- DIMENSI ANALISIS — GRUP A (generik) -->
     <div class="q-block">
-      <div class="q-num">Pertanyaan B2 · 05 — Hal yang Diingat</div>
-      <div class="q-text">Tuliskan <strong>2 kata atau angka</strong> yang paling Anda ingat dari berita PHK ini. <span class="q-dim dim-analisis">Kesan</span></div>
-      <input class="isian" type="text" placeholder="Kata/angka 1" data-field="b2q5_1" style="margin-bottom:8px;" required>
-      <input class="isian" type="text" placeholder="Kata/angka 2" data-field="b2q5_2" required>
+      <div class="q-num">Pertanyaan B2 · 05 — Kata/Frasa Alarmis</div>
+      <div class="q-text">Tuliskan <strong>2 kata atau frasa</strong> dalam berita PHK ini yang membuat situasinya terdengar lebih krisis daripada yang sebenarnya. <span class="q-dim dim-analisis">Analisis</span></div>
+      <input class="isian" type="text" placeholder="Kata/frasa 1" data-field="b2q5_1" style="margin-bottom:8px;" required>
+      <input class="isian" type="text" placeholder="Kata/frasa 2" data-field="b2q5_2" required>
     </div>
 
     <div class="q-block">
@@ -478,6 +513,18 @@
       </div>
     </div>
 
+    <!-- ATTENTION CHECK B2 -->
+    <div class="q-block" style="background:#f0f4f8;border:1px solid #d0dae8;padding:16px;border-radius:3px;">
+      <div class="q-num">Cek Pemahaman</div>
+      <div class="q-text">Menurut berita PHK yang baru Anda baca, <strong>sektor apa</strong> yang paling terdampak?</div>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="b2_check"><span class="radio-dot"></span><span class="radio-label">Pertanian</span></label>
+        <label class="radio-item"><input type="radio" name="b2_check"><span class="radio-dot"></span><span class="radio-label">Pendidikan</span></label>
+        <label class="radio-item"><input type="radio" name="b2_check"><span class="radio-dot"></span><span class="radio-label">Manufaktur</span></label>
+        <label class="radio-item"><input type="radio" name="b2_check"><span class="radio-dot"></span><span class="radio-label">Perdagangan</span></label>
+      </div>
+    </div>
+
   </div><!-- /V -->
 
   <!-- ═══ VI: REFLEKSI AKHIR ═══ -->
@@ -504,7 +551,7 @@
       <div class="q-num">Refleksi · 02</div>
       <div class="q-text">Apakah cara Anda menyikapi berita <strong>berubah</strong> setelah melakukan aktivitas membaca ini?</div>
       <div class="radio-group">
-        <label class="radio-item"><input type="radio" name="rf2"><span class="radio-dot"></span><span class="radio-label">Ya, saya jadi lebih kritis dan hati-hati</span></label>
+        <label class="radio-item"><input type="radio" name="rf2"><span class="radio-dot"></span><span class="radio-label">Ada perubahan dalam cara saya menyikapi berita</span></label>
         <label class="radio-item"><input type="radio" name="rf2"><span class="radio-dot"></span><span class="radio-label">Sedikit berubah, tapi tidak terlalu signifikan</span></label>
         <label class="radio-item"><input type="radio" name="rf2"><span class="radio-dot"></span><span class="radio-label">Tidak berubah, cara membaca saya tetap sama</span></label>
       </div>
@@ -585,32 +632,37 @@ function collectData() {
 
 function getFieldLabel(field) {
   var labels = {
-    kode: 'Kode Responden', usia: 'Usia', pendidikan: 'Pendidikan Terakhir',
+    kode: 'Kode Responden', usia: 'Usia', jenis_kelamin: 'Jenis Kelamin',
+    jurusan: 'Jurusan/Prodi',
+    pendidikan: 'Pendidikan Terakhir',
     frekuensi_baca: 'Frekuensi membaca berita online',
-    b1q1: 'B1 · 01 — Rasa khawatir/panik',
-    b1q2: 'B1 · 02 — Dorongan membagikan berita',
-    b1q3: 'B1 · 03 — Akurasi judul "Kiamat Internet"',
-    b1q4: 'B1 · 04 — Kompetensi NASA',
-    b1q5_1: 'B1 · 05 — Hal menarik 1',
-    b1q5_2: 'B1 · 05 — Hal menarik 2',
-    b1q6: 'B1 · 06 — Kesesuaian judul',
-    b1q7: 'B1 · 07 — Informasi yang kurang',
-    b1q7_text: 'B1 · 07 — Jelaskan informasi yang kurang',
-    b1q8: 'B1 · 08 — Kredibilitas sumber',
-    b1q9: 'B1 · 09 — Kesan akhir',
-    b2q1: 'B2 · 01 — Rasa khawatir PHK',
-    b2q2: 'B2 · 02 — Dorongan membagikan berita',
-    b2q3: 'B2 · 03 — Kepercayaan PHK melonjak',
-    b2q4: 'B2 · 04 — Gambaran lengkap dan jujur',
-    b2q5_1: 'B2 · 05 — Kata/angka 1',
-    b2q5_2: 'B2 · 05 — Kata/angka 2',
-    b2q6: 'B2 · 06 — Kemudahan memahami angka',
-    b2q7: 'B2 · 07 — Informasi tambahan',
-    b2q8: 'B2 · 08 — Kepercayaan data',
-    b2q9: 'B2 · 09 — Situasi PHK',
-    b2q10: 'B2 · 10 — Perilaku nyata',
-    rf1: 'Refleksi · 01 — Kepercayaan pada media',
-    rf2: 'Refleksi · 02 — Perubahan sikap'
+    pretrust: 'Pre-Trust — Kepercayaan awal pada media',
+    b1q1: 'B1.01 — Rasa khawatir/panik',
+    b1q2: 'B1.02 — Dorongan membagikan berita',
+    b1q3: 'B1.03 — Akurasi judul "Kiamat Internet"',
+    b1q4: 'B1.04 — Kompetensi NASA',
+    b1q5_1: 'B1.05 — Kata/frasa berlebihan 1',
+    b1q5_2: 'B1.05 — Kata/frasa berlebihan 2',
+    b1q6: 'B1.06 — Kesesuaian judul',
+    b1q7: 'B1.07 — Informasi yang kurang',
+    b1q7_text: 'B1.07 — Jelaskan informasi yang kurang',
+    b1q8: 'B1.08 — Kredibilitas sumber',
+    b1q9: 'B1.09 — Kesan akhir',
+    b1_check: 'Cek Pemahaman — Sumber berita 1',
+    b2q1: 'B2.01 — Rasa khawatir PHK',
+    b2q2: 'B2.02 — Dorongan membagikan berita',
+    b2q3: 'B2.03 — Kepercayaan PHK melonjak',
+    b2q4: 'B2.04 — Gambaran lengkap dan jujur',
+    b2q5_1: 'B2.05 — Kata/frasa alarmis 1',
+    b2q5_2: 'B2.05 — Kata/frasa alarmis 2',
+    b2q6: 'B2.06 — Kemudahan memahami angka',
+    b2q7: 'B2.07 — Informasi tambahan',
+    b2q8: 'B2.08 — Kepercayaan data',
+    b2q9: 'B2.09 — Situasi PHK',
+    b2q10: 'B2.10 — Perilaku nyata',
+    b2_check: 'Cek Pemahaman — Sektor PHK',
+    rf1: 'Refleksi 01 — Kepercayaan pada media',
+    rf2: 'Refleksi 02 — Perubahan sikap'
   };
   return labels[field] || field;
 }
@@ -619,10 +671,121 @@ function handleSubmit() {
   var status = document.getElementById('submitStatus');
   status.style.display = 'none';
 
-  var fields = ['kode','usia','pendidikan','frekuensi_baca'];
-  var likert = ['b1q1','b1q2','b1q3','b2q1','b2q2','b2q3','rf1'];
+  var fields = ['kode','usia','pendidikan','frekuensi_baca','jenis_kelamin','jurusan'];
+  var likert = ['pretrust','b1q1','b1q2','b1q3','b2q1','b2q2','b2q3','rf1'];
   var radio = ['b1q4','b1q6','b1q7','b1q8','b1q9',
-               'b2q4','b2q6','b2q7','b2q8','b2q9','b2q10','rf2'];
+               'b2q4','b2q6','b2q7','b2q8','b2q9','b2q10','rf2',
+               'b1_check','b2_check'];
+  var isian = ['b1q5_1','b1q5_2','b1q7_text','b2q5_1','b2q5_2'];
+
+  var firstMissing = null;
+
+  // Check text/select fields
+  for (var i = 0; i < fields.length; i++) {
+    var el = document.querySelector('[data-field="' + fields[i] + '"]');
+    if (el && (!el.value || el.value === '')) {
+      if (!firstMissing) firstMissing = getFieldLabel(fields[i]);
+      el.style.borderBottom = '2px solid #c0392b';
+    } else if (el) {
+      el.style.borderBottom = '';
+    }
+  }
+
+  // Check isian (with conditional b1q7_text for Grup A)
+  for (var i = 0; i < isian.length; i++) {
+    var el = document.querySelector('[data-field="' + isian[i] + '"]');
+    if (!el) continue;
+    if (isian[i] === 'b1q7_text') {
+      var b1q7el = document.querySelector('input[name="b1q7"]:checked');
+      var needText = false;
+      if (b1q7el) {
+        var lbl = b1q7el.closest('.radio-item');
+        if (lbl) {
+          var txt = lbl.querySelector('.radio-label').textContent;
+          if (txt.indexOf('banyak') >= 0 || txt.indexOf('beberapa') >= 0) needText = true;
+        }
+      }
+      if (!needText) { el.style.borderBottom = ''; continue; }
+    }
+    if (!el.value || el.value === '') {
+      if (!firstMissing) firstMissing = getFieldLabel(isian[i]);
+      el.style.borderBottom = '2px solid #c0392b';
+    } else {
+      el.style.borderBottom = '';
+    }
+  }
+
+  // Check likert
+  for (var i = 0; i < likert.length; i++) {
+    var checked = document.querySelector('input[name="' + likert[i] + '"]:checked');
+    if (!checked) {
+      if (!firstMissing) firstMissing = getFieldLabel(likert[i]);
+      var qblock = document.querySelector('input[name="' + likert[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '3px solid #c0392b';
+      }
+    } else {
+      var qblock = document.querySelector('input[name="' + likert[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '';
+      }
+    }
+  }
+
+  // Check radio
+  for (var i = 0; i < radio.length; i++) {
+    var checked = document.querySelector('input[name="' + radio[i] + '"]:checked');
+    if (!checked) {
+      if (!firstMissing) firstMissing = getFieldLabel(radio[i]);
+      var qblock = document.querySelector('input[name="' + radio[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '3px solid #c0392b';
+      }
+    } else {
+      var qblock = document.querySelector('input[name="' + radio[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '';
+      }
+    }
+  }
+
+  if (firstMissing) {
+    status.style.display = 'block';
+    status.textContent = '⚠️ ' + firstMissing + ' — harap diisi terlebih dahulu.';
+    status.style.color = '#c0392b';
+    window.scrollTo(0, 0);
+    return;
+  }
+
+  var data = collectData();
+
+  var form = document.createElement('form');
+  form.method = 'POST';
+  form.action = 'https://script.google.com/macros/s/AKfycbzONajUKfrNsONkDJCgNI7N4WyGbq66e5D9pFz7WVc06L0U_Wf4ZJchYEBLpQm-PeTQ/exec';
+
+  var input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'data';
+  input.value = JSON.stringify(data);
+  form.appendChild(input);
+
+  document.body.appendChild(form);
+  form.submit();
+}
+
+function handleSubmit() {
+  var status = document.getElementById('submitStatus');
+  status.style.display = 'none';
+
+  var fields = ['kode','usia','pendidikan','frekuensi_baca'];
+  var likert = ['pretrust','b1q1','b1q2','b1q3','b2q1','b2q2','b2q3','rf1'];
+  var radio = ['b1q4','b1q6','b1q7','b1q8','b1q9',
+               'b2q4','b2q6','b2q7','b2q8','b2q9','b2q10','rf2',
+               'b1_check','b2_check'];
   var isian = ['b1q5_1','b1q5_2','b1q7_text','b2q5_1','b2q5_2'];
 
   var firstMissing = null;

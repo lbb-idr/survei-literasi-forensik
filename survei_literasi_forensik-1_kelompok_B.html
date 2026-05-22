@@ -92,6 +92,9 @@
   .tahapan-card .t-name { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--grp-b); margin-bottom: 4px; }
   .tahapan-card .t-action { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
   .tahapan-card .t-output { font-size: 11.5px; color: var(--muted); font-style: italic; }
+  .t-contoh { margin-top: 8px; padding: 8px 10px; background: #fff8f0; border-left: 3px solid var(--gold); font-size: 11.5px; line-height: 1.5; border-radius: 2px; }
+  .t-contoh strong { color: var(--grp-b); }
+  .t-contoh em { font-style: italic; color: var(--muted); }
 
   /* Instruksi Praktis Tabel 3 */
   .instruksi-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0 16px; }
@@ -214,10 +217,33 @@
       <div class="field"><label>Seberapa sering membaca berita online?</label>
         <select data-field="frekuensi_baca" required><option value="">— Pilih —</option><option>Setiap hari</option><option>Beberapa kali seminggu</option><option>Sesekali saja</option><option>Jarang sekali</option></select>
       </div>
+      <div class="field"><label>Jenis Kelamin</label>
+        <select data-field="jenis_kelamin" required><option value="">— Pilih —</option><option>Laki-laki</option><option>Perempuan</option></select>
+      </div>
+      <div class="field"><label>Jurusan / Program Studi</label><input type="text" placeholder="Contoh: Pendidikan Bahasa Inggris" data-field="jurusan" required></div>
     </div>
     <div style="margin-top:18px;">
       <div class="field"><label>Kelompok</label>
         <div style="margin-top:4px;font-size:14px;font-weight:700;padding:8px 12px;border:2px solid var(--grp-b);border-radius:4px;color:var(--grp-b);">B — Kelompok Perlakuan (Literasi Forensik)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PRE-TRUST ═══ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="font-size:28px;">Pre</span>
+      <span class="section-title">Kepercayaan Awal terhadap Media</span>
+    </div>
+    <p style="font-size:13px;color:var(--muted);font-style:italic;margin-bottom:6px;">Jawab pertanyaan ini <strong>sebelum</strong> membaca berita apa pun.</p>
+    <div class="q-block" style="border-bottom:none;">
+      <div class="q-text">Secara umum, seberapa besar kepercayaan Anda terhadap <strong>media berita digital Indonesia</strong>?</div>
+      <div class="likert">
+        <div class="likert-item"><input type="radio" name="pretrust" id="pretrust_1"><label for="pretrust_1"><span class="lk-num">1</span><span class="lk-desc">Sangat tidak percaya</span></label></div>
+        <div class="likert-item"><input type="radio" name="pretrust" id="pretrust_2"><label for="pretrust_2"><span class="lk-num">2</span><span class="lk-desc">Kurang percaya</span></label></div>
+        <div class="likert-item"><input type="radio" name="pretrust" id="pretrust_3"><label for="pretrust_3"><span class="lk-num">3</span><span class="lk-desc">Netral</span></label></div>
+        <div class="likert-item"><input type="radio" name="pretrust" id="pretrust_4"><label for="pretrust_4"><span class="lk-num">4</span><span class="lk-desc">Cukup percaya</span></label></div>
+        <div class="likert-item"><input type="radio" name="pretrust" id="pretrust_5"><label for="pretrust_5"><span class="lk-num">5</span><span class="lk-desc">Sangat percaya</span></label></div>
       </div>
     </div>
   </div>
@@ -241,41 +267,47 @@
           <div class="t-name">Scanning</div>
           <div class="t-action">Cari kata emosional &amp; angka bombastis di awal teks.</div>
           <div class="t-output">→ Tandai potensi bias psikologis sebelum membaca lebih dalam.</div>
+          <div class="t-contoh"><strong>Contoh:</strong> Judul "Waduh! NASA Prediksi akan Terjadi <em>Kiamat Internet</em> di 2025" — kata <strong>"Waduh!"</strong> dan <strong>"Kiamat"</strong> langsung memicu rasa panik. Tandai kata-kata seperti ini tanpa perlu menganalisis dulu.</div>
         </div>
 
         <div class="tahapan-card">
           <span class="t-num">2</span>
           <div class="t-name">Mapping (Reverse Framing)</div>
-          <div class="t-action">Balik posisi aktor dalam berita. Apakah ceritanya masih masuk akal?</div>
-          <div class="t-output">→ Tentukan arah keberpihakan penulis.</div>
+          <div class="t-action">Balik judul berita. Apakah ceritanya masih masuk akal?</div>
+          <div class="t-output">→ Tentukan keberpihakan penulis.</div>
+          <div class="t-contoh"><strong>Contoh:</strong> Judul asli "PHK Melonjak 32,19%". Coba balik: <strong>"PHK Menurun 32,19%"</strong>. Apakah data di berita mendukung versi sebaliknya? Kalau ya, berarti judul asli hanya menyoroti satu sisi.</div>
         </div>
 
         <div class="tahapan-card">
           <span class="t-num">3</span>
           <div class="t-name">Neutralizing</div>
-          <div class="t-action">Hapus kata sifat. Tulis ulang kalimat secara minimalis &amp; netral.</div>
+          <div class="t-action">Hapus kata sifat. Tulis ulang kalimat secara netral.</div>
           <div class="t-output">→ Pisahkan fakta murni dari opini/dramatisasi.</div>
+          <div class="t-contoh"><strong>Contoh:</strong> "Badai matahari <em>dahsyat</em> akan <em>mematikan</em> internet global" → versi netral: <strong>"Badai matahari berpotensi mengganggu infrastruktur internet"</strong>. Buang semua kata sifat, sisakan fakta.</div>
         </div>
 
         <div class="tahapan-card">
           <span class="t-num">4</span>
           <div class="t-name">Verifikasi Logika</div>
-          <div class="t-action">Uji rantai peristiwa: apakah sebab-akibatnya sinkron dan masuk akal?</div>
+          <div class="t-action">Uji rantai sebab-akibat. Apakah masuk akal?</div>
           <div class="t-output">→ Deteksi manipulasi atau hoaks sistemik.</div>
+          <div class="t-contoh"><strong>Contoh:</strong> Berita bilang: NASA prediksi → badai matahari → internet mati total. Tanyakan: <strong>apa hubungan teknis</strong> antara badai matahari dan internet? Apakah berita menjelaskan prosesnya, atau langsung lompat ke kesimpulan?</div>
         </div>
 
         <div class="tahapan-card">
           <span class="t-num">5</span>
           <div class="t-name">Triangulasi Data</div>
-          <div class="t-action">Bandingkan angka/klaim dengan sumber resmi (BPS, jurnal, instansi terkait).</div>
+          <div class="t-action">Bandingkan angka/klaim dengan sumber resmi.</div>
           <div class="t-output">→ Validasi kebenaran data kuantitatif.</div>
+          <div class="t-contoh"><strong>Contoh:</strong> Berita PHK menyebut angka "32,19%". Cari: <strong>32,19% dari berapa?</strong> Apakah disebutkan angka absolut (42.385 vs 32.064)? Apakah ada pranala ke sumber asli Satudata Kemnaker? Tanpa referensi, angka menggantung.</div>
         </div>
 
         <div class="tahapan-card">
           <span class="t-num">6</span>
           <div class="t-name">Logical Gap Analysis</div>
-          <div class="t-action">Cari kesimpulan yang "melompat" tanpa didukung data di paragraf sebelumnya.</div>
+          <div class="t-action">Cari kesimpulan yang "melompat" tanpa data pendukung.</div>
           <div class="t-output">→ Deteksi cacat logika (logical fallacy).</div>
+          <div class="t-contoh"><strong>Contoh:</strong> Berita: "PHK naik 32,19%" → kesimpulan <strong>"krisis ketenagakerjaan"</strong>. Cek: apa data Juni yang justru turun (1.609 dari 4.702) tidak disebut? Jika loncatan data → kesimpulan tanpa konteks, itu logical gap.</div>
         </div>
 
       </div>
@@ -423,6 +455,18 @@
       </div>
     </div>
 
+    <!-- ATTENTION CHECK B1 -->
+    <div class="q-block" style="background:#f0f4f8;border:1px solid #d0dae8;padding:16px;border-radius:3px;">
+      <div class="q-num">Cek Pemahaman</div>
+      <div class="q-text">Berdasarkan berita yang baru Anda baca, siapa <strong>lembaga atau sumber</strong> yang disebut dalam berita tentang badai matahari ini?</div>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="b1_check"><span class="radio-dot"></span><span class="radio-label">Kemenkominfo</span></label>
+        <label class="radio-item"><input type="radio" name="b1_check"><span class="radio-dot"></span><span class="radio-label">NASA</span></label>
+        <label class="radio-item"><input type="radio" name="b1_check"><span class="radio-dot"></span><span class="radio-label">BMKG</span></label>
+        <label class="radio-item"><input type="radio" name="b1_check"><span class="radio-dot"></span><span class="radio-label">WHO</span></label>
+      </div>
+    </div>
+
   </div><!-- /IV -->
 
   <div class="article-divider"><span>Lanjut ke Berita Kedua</span></div>
@@ -555,6 +599,18 @@
       </div>
     </div>
 
+    <!-- ATTENTION CHECK B2 -->
+    <div class="q-block" style="background:#f0f4f8;border:1px solid #d0dae8;padding:16px;border-radius:3px;">
+      <div class="q-num">Cek Pemahaman</div>
+      <div class="q-text">Menurut berita PHK yang baru Anda baca, <strong>sektor apa</strong> yang paling terdampak?</div>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="b2_check"><span class="radio-dot"></span><span class="radio-label">Pertanian</span></label>
+        <label class="radio-item"><input type="radio" name="b2_check"><span class="radio-dot"></span><span class="radio-label">Pendidikan</span></label>
+        <label class="radio-item"><input type="radio" name="b2_check"><span class="radio-dot"></span><span class="radio-label">Manufaktur</span></label>
+        <label class="radio-item"><input type="radio" name="b2_check"><span class="radio-dot"></span><span class="radio-label">Perdagangan</span></label>
+      </div>
+    </div>
+
   </div><!-- /V -->
 
   <!-- ═══ VI: REFLEKSI AKHIR ═══ -->
@@ -581,7 +637,7 @@
       <div class="q-num">Refleksi · 02</div>
       <div class="q-text">Apakah cara Anda menyikapi berita <strong>berubah</strong> setelah melakukan aktivitas membaca ini?</div>
       <div class="radio-group">
-        <label class="radio-item"><input type="radio" name="rf2"><span class="radio-dot"></span><span class="radio-label">Ya, saya jadi lebih kritis dan hati-hati</span></label>
+        <label class="radio-item"><input type="radio" name="rf2"><span class="radio-dot"></span><span class="radio-label">Ada perubahan dalam cara saya menyikapi berita</span></label>
         <label class="radio-item"><input type="radio" name="rf2"><span class="radio-dot"></span><span class="radio-label">Sedikit berubah, tapi tidak terlalu signifikan</span></label>
         <label class="radio-item"><input type="radio" name="rf2"><span class="radio-dot"></span><span class="radio-label">Tidak berubah, cara membaca saya tetap sama</span></label>
       </div>
@@ -657,7 +713,7 @@ function collectData() {
   });
 
   var i, el, num, label;
-  var likert = ['b1q1','b1q2','b1q3','b2q1','b2q2','b2q3','rf1','rf3s'];
+  var likert = ['pretrust','b1q1','b1q2','b1q3','b2q1','b2q2','b2q3','rf1','rf3s'];
   for (i = 0; i < likert.length; i++) {
     el = document.querySelector('input[name="' + likert[i] + '"]:checked');
     if (el) {
@@ -670,7 +726,8 @@ function collectData() {
   }
 
   var radio = ['b1q4','b1q6','b1q7','b1q8','b1q9',
-               'b2q4','b2q6','b2q7','b2q8','b2q9','b2q10','rf2','rf3'];
+               'b2q4','b2q6','b2q7','b2q8','b2q9','b2q10','rf2','rf3',
+               'b1_check','b2_check'];
   for (i = 0; i < radio.length; i++) {
     el = document.querySelector('input[name="' + radio[i] + '"]:checked');
     if (el) {
@@ -686,37 +743,167 @@ function collectData() {
 
 function getFieldLabel(field) {
   var labels = {
-    kode: 'Kode Responden', usia: 'Usia', pendidikan: 'Pendidikan Terakhir',
+    kode: 'Kode Responden', usia: 'Usia', jenis_kelamin: 'Jenis Kelamin',
+    jurusan: 'Jurusan/Prodi',
+    pendidikan: 'Pendidikan Terakhir',
     frekuensi_baca: 'Frekuensi membaca berita online',
-    b1q1: 'B1 · 01 — Rasa khawatir/panik',
-    b1q2: 'B1 · 02 — Dorongan membagikan berita',
-    b1q3: 'B1 · 03 — Akurasi judul "Kiamat Internet"',
-    b1q4: 'B1 · 04 — Kompetensi NASA',
-    b1q5_1: 'B1 · 05 — Kata dramatis 1',
-    b1q5_2: 'B1 · 05 — Kata dramatis 2',
-    b1q6: 'B1 · 06 — Mapping / Reverse Framing',
-    b1q7: 'B1 · 07 — Verifikasi Logika',
-    b1q7_text: 'B1 · 07 — Jelaskan loncatan logika',
-    b1q8: 'B1 · 08 — Triangulasi Data',
-    b1q9: 'B1 · 09 — Kesimpulan akhir',
-    b2q1: 'B2 · 01 — Rasa khawatir PHK',
-    b2q2: 'B2 · 02 — Dorongan membagikan berita',
-    b2q3: 'B2 · 03 — Kepercayaan PHK melonjak',
-    b2q4: 'B2 · 04 — Gambaran lengkap dan jujur',
-    b2q5_1: 'B2 · 05 — Kata/frasa 1',
-    b2q5_2: 'B2 · 05 — Kata/frasa 2',
-    b2q6: 'B2 · 06 — Verifikasi Logika',
-    b2q7: 'B2 · 07 — Cek Perbandingan',
-    b2q8: 'B2 · 08 — Verifikasi Sumber',
-    b2q9: 'B2 · 09 — Kesimpulan Akhir',
-    b2q10: 'B2 · 10 — Perilaku nyata',
-    rf1: 'Refleksi · 01 — Kepercayaan pada media',
-    rf2: 'Refleksi · 02 — Perubahan sikap',
-    rf3: 'Refleksi · 03 — Tahapan paling membantu',
-    rf3s: 'Refleksi · 03 — Skor bantuan teknik',
-    rf3_pengalaman: 'Refleksi · 03 — Pengalaman menggunakan teknik'
+    pretrust: 'Pre-Trust — Kepercayaan awal pada media',
+    b1q1: 'B1.01 — Rasa khawatir/panik',
+    b1q2: 'B1.02 — Dorongan membagikan berita',
+    b1q3: 'B1.03 — Akurasi judul "Kiamat Internet"',
+    b1q4: 'B1.04 — Kompetensi NASA',
+    b1q5_1: 'B1.05 — Kata dramatis 1',
+    b1q5_2: 'B1.05 — Kata dramatis 2',
+    b1q6: 'B1.06 — Mapping / Reverse Framing',
+    b1q7: 'B1.07 — Verifikasi Logika',
+    b1q7_text: 'B1.07 — Jelaskan loncatan logika',
+    b1q8: 'B1.08 — Triangulasi Data',
+    b1q9: 'B1.09 — Kesimpulan akhir',
+    b1_check: 'Cek Pemahaman — Sumber berita 1',
+    b2q1: 'B2.01 — Rasa khawatir PHK',
+    b2q2: 'B2.02 — Dorongan membagikan berita',
+    b2q3: 'B2.03 — Kepercayaan PHK melonjak',
+    b2q4: 'B2.04 — Gambaran lengkap dan jujur',
+    b2q5_1: 'B2.05 — Kata/frasa 1',
+    b2q5_2: 'B2.05 — Kata/frasa 2',
+    b2q6: 'B2.06 — Verifikasi Logika',
+    b2q7: 'B2.07 — Cek Perbandingan',
+    b2q8: 'B2.08 — Verifikasi Sumber',
+    b2q9: 'B2.09 — Kesimpulan Akhir',
+    b2q10: 'B2.10 — Perilaku nyata',
+    b2_check: 'Cek Pemahaman — Sektor PHK',
+    rf1: 'Refleksi 01 — Kepercayaan pada media',
+    rf2: 'Refleksi 02 — Perubahan sikap',
+    rf3: 'Refleksi 03 — Tahapan paling membantu',
+    rf3s: 'Refleksi 03 — Skor bantuan teknik',
+    rf3_pengalaman: 'Refleksi 03 — Pengalaman menggunakan teknik'
   };
   return labels[field] || field;
+}
+
+function handleSubmit() {
+  var status = document.getElementById('submitStatus');
+  status.style.display = 'none';
+
+  var fields = ['kode','usia','pendidikan','frekuensi_baca','jenis_kelamin','jurusan'];
+  var likert = ['pretrust','b1q1','b1q2','b1q3','b2q1','b2q2','b2q3','rf1','rf3s'];
+  var radio = ['b1q4','b1q6','b1q7','b1q8','b1q9',
+               'b2q4','b2q6','b2q7','b2q8','b2q9','b2q10','rf2','rf3',
+               'b1_check','b2_check'];
+  var isian = ['b1q5_1','b1q5_2','b1q7_text','b2q5_1','b2q5_2','rf3_pengalaman'];
+
+  var firstMissing = null;
+
+  function mark(el, label, missing) {
+    if (!el || (el.value !== undefined && el.value !== '') || (el.checked !== undefined && el.checked)) return;
+    if (!firstMissing) firstMissing = label;
+    if (el.style) el.style.borderBottom = '2px solid #c0392b';
+    var qblock = el.closest ? el.closest('.q-block') : null;
+    if (qblock) qblock.style.borderLeft = '3px solid #c0392b';
+  }
+  function unmark(el) {
+    if (!el) return;
+    if (el.style) el.style.borderBottom = '';
+    var qblock = el.closest ? el.closest('.q-block') : null;
+    if (qblock) qblock.style.borderLeft = '';
+  }
+
+  // Check text/select fields
+  for (var i = 0; i < fields.length; i++) {
+    var el = document.querySelector('[data-field="' + fields[i] + '"]');
+    if (el && (!el.value || el.value === '')) {
+      if (!firstMissing) firstMissing = getFieldLabel(fields[i]);
+      el.style.borderBottom = '2px solid #c0392b';
+    } else if (el) {
+      el.style.borderBottom = '';
+    }
+  }
+
+  // Check isian
+  for (var i = 0; i < isian.length; i++) {
+    var el = document.querySelector('[data-field="' + isian[i] + '"]');
+    if (!el) continue;
+    // b1q7_text conditional: only required if b1q7 = "Sebagian dijelaskan, tapi ada loncatan"
+    if (isian[i] === 'b1q7_text') {
+      var b1q7el = document.querySelector('input[name="b1q7"]:checked');
+      var needText = false;
+      if (b1q7el) {
+        var lbl = b1q7el.closest('.radio-item');
+        if (lbl) {
+          var txt = lbl.querySelector('.radio-label').textContent;
+          if (txt.indexOf('Sebagian') >= 0) needText = true;
+        }
+      }
+      if (!needText) { unmark(el); continue; }
+    }
+    if (!el.value || el.value === '') {
+      if (!firstMissing) firstMissing = getFieldLabel(isian[i]);
+      el.style.borderBottom = '2px solid #c0392b';
+    } else {
+      el.style.borderBottom = '';
+    }
+  }
+
+  // Check likert
+  for (var i = 0; i < likert.length; i++) {
+    var checked = document.querySelector('input[name="' + likert[i] + '"]:checked');
+    if (!checked) {
+      if (!firstMissing) firstMissing = getFieldLabel(likert[i]);
+      var qblock = document.querySelector('input[name="' + likert[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '3px solid #c0392b';
+      }
+    } else {
+      var qblock = document.querySelector('input[name="' + likert[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '';
+      }
+    }
+  }
+
+  // Check radio
+  for (var i = 0; i < radio.length; i++) {
+    var checked = document.querySelector('input[name="' + radio[i] + '"]:checked');
+    if (!checked) {
+      if (!firstMissing) firstMissing = getFieldLabel(radio[i]);
+      var qblock = document.querySelector('input[name="' + radio[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '3px solid #c0392b';
+      }
+    } else {
+      var qblock = document.querySelector('input[name="' + radio[i] + '"]');
+      if (qblock) {
+        var q = qblock.closest('.q-block');
+        if (q) q.style.borderLeft = '';
+      }
+    }
+  }
+
+  if (firstMissing) {
+    status.style.display = 'block';
+    status.textContent = '⚠️ ' + firstMissing + ' — harap diisi terlebih dahulu.';
+    status.style.color = '#c0392b';
+    window.scrollTo(0, 0);
+    return;
+  }
+
+  var data = collectData();
+
+  var form = document.createElement('form');
+  form.method = 'POST';
+  form.action = 'https://script.google.com/macros/s/AKfycbzONajUKfrNsONkDJCgNI7N4WyGbq66e5D9pFz7WVc06L0U_Wf4ZJchYEBLpQm-PeTQ/exec';
+
+  var input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'data';
+  input.value = JSON.stringify(data);
+  form.appendChild(input);
+
+  document.body.appendChild(form);
+  form.submit();
 }
 
 function handleSubmit() {
