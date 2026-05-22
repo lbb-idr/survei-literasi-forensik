@@ -32,6 +32,12 @@ function doGet(e) {
 
 function createFormFromJson(data) {
   try {
+    console.log('createFormFromJson called, data type:', typeof data);
+    if (!data) {
+      return HtmlService.createHtmlOutput(
+        '<html><body style="font-family:sans-serif;padding:40px;text-align:center;"><h2>Error: data kosong</h2><p>Tidak ada definisi form yang diterima.</p></body></html>'
+      ).setTitle('Error');
+    }
     var form = FormApp.create(data.title || 'Untitled Form');
     form.setDescription(data.description || '');
     form.setCollectEmail(false);
@@ -128,25 +134,56 @@ function createFormFromJson(data) {
     var url = form.getPublishedUrl();
     var editUrl = form.getEditUrl();
 
-    return ContentService
-      .createTextOutput(JSON.stringify({
-        status: 'ok',
-        url: url,
-        editUrl: editUrl,
-        formId: form.getId(),
-        title: data.title,
-        questionCount: allItems.length
-      }))
-      .setMimeType(ContentService.MimeType.JSON);
+    var html = '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+      '<title>Form Berhasil Dibuat</title>' +
+      '<style>body{font-family:Georgia,serif;background:#faf7f2;color:#1a1208;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px;}' +
+      '.card{background:white;border-top:6px solid #1a4a7a;padding:36px 40px;max-width:520px;border-radius:4px;box-shadow:0 4px 16px rgba(0,0,0,.1);text-align:center;}' +
+      'h2{font-size:22px;margin-bottom:6px;color:#1a4a7a;}' +
+      'p{font-size:13px;color:#6b5e4a;line-height:1.6;margin:8px 0;}' +
+      '.url-box{background:#f0ead8;border-radius:4px;padding:12px 16px;margin:16px 0;word-break:break-all;font-size:12px;text-align:left;}' +
+      '.url-box label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#6b5e4a;display:block;margin-bottom:3px;}' +
+      '.url-box a{color:#1a4a7a;font-weight:600;text-decoration:none;}' +
+      '.url-box a:hover{text-decoration:underline;}' +
+      '.stat{display:inline-block;margin:6px 8px;font-size:12px;color:#6b5e4a;}' +
+      '.stat strong{color:#1a1208;}' +
+      '.btn{display:inline-block;background:#1a4a7a;color:white;padding:10px 28px;border-radius:3px;text-decoration:none;font-size:13px;font-weight:600;margin:8px 4px;}' +
+      '.btn:hover{background:#12355e;}' +
+      '.btn-edit{background:#b8860b;}' +
+      '.btn-edit:hover{background:#9a7209;}' +
+      '.footer{font-size:11px;color:#b8860b;margin-top:16px;border-top:1px solid #d4c9b0;padding-top:14px;}' +
+      '</style></head><body>' +
+      '<div class="card">' +
+      '<h2>✓ Form Berhasil Dibuat</h2>' +
+      '<p>' + data.title + '</p>' +
+      '<p class="stat"><strong>' + allItems.length + '</strong> pertanyaan · <strong>' + (data.sections ? data.sections.length : 0) + '</strong> bagian</p>' +
+      '<div class="url-box"><label>🔗 Link untuk responden</label><a href="' + url + '" target="_blank">' + url + '</a></div>' +
+      '<div class="url-box"><label>✏️ Link edit (hanya peneliti)</label><a href="' + editUrl + '" target="_blank">' + editUrl + '</a></div>' +
+      '<a class="btn" href="' + url + '" target="_blank">Buka Form</a>' +
+      '<a class="btn btn-edit" href="' + editUrl + '" target="_blank">Edit Form</a>' +
+      '<div class="footer">GForm Creator · Apps Script + FormApp</div>' +
+      '</div></body></html>';
+
+    return HtmlService.createHtmlOutput(html).setTitle('Form Berhasil Dibuat');
 
   } catch (err) {
     console.error('createForm error:', err.toString());
-    return ContentService
-      .createTextOutput(JSON.stringify({
-        status: 'error',
-        error: err.toString()
-      }))
-      .setMimeType(ContentService.MimeType.JSON);
+
+    var html = '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+      '<title>Error</title>' +
+      '<style>body{font-family:Georgia,serif;background:#faf7f2;color:#1a1208;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px;}' +
+      '.card{background:white;border-top:6px solid #c0392b;padding:36px 40px;max-width:480px;border-radius:4px;text-align:center;}' +
+      'h2{color:#c0392b;}' +
+      'p{font-size:13px;color:#6b5e4a;line-height:1.6;}' +
+      '.err{background:#fde8e8;padding:10px;border-radius:3px;font-family:monospace;font-size:11px;color:#c0392b;margin:12px 0;word-break:break-all;}' +
+      '</style></head><body>' +
+      '<div class="card">' +
+      '<h2>✗ Gagal Membuat Form</h2>' +
+      '<div class="err">' + err.toString() + '</div>' +
+      '<p>Periksa definisi JSON Anda, lalu coba lagi.</p>' +
+      '<button onclick="history.back()" style="background:#1a1208;color:white;border:none;padding:10px 28px;border-radius:3px;font-size:13px;cursor:pointer;">Kembali</button>' +
+      '</div></body></html>';
+
+    return HtmlService.createHtmlOutput(html).setTitle('Error');
   }
 }
 
