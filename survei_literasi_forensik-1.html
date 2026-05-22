@@ -184,6 +184,8 @@
 
 <div class="container">
 
+<iframe name="submitFrame" style="display:none"></iframe>
+
   <!-- ═══ I: KATA PENGANTAR ═══ -->
   <div class="section">
     <div class="section-header">
@@ -523,6 +525,10 @@
     <div id="submitStatus" style="margin-top:12px;font-size:13px;color:var(--muted);font-style:italic;display:none;"></div>
   </div>
 
+  <form id="submitForm" target="submitFrame" action="https://script.google.com/macros/s/AKfycbwt9fJOMiRV6H7GZPNRhgK1n3AK5zfq_txc4vrdwJoz4qInaSCR_PtuI95K5NJ1S-lM/exec" method="POST" style="display:none">
+    <input type="hidden" name="data" id="payloadInput">
+  </form>
+
   <!-- PANDUAN SKORING -->
   <div class="scoring-panel">
     <p style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:12px;">📊 Panduan Skoring — Hanya untuk Peneliti</p>
@@ -539,9 +545,6 @@
 
 
 <script>
-// ⚠️ GANTI URL ini dengan URL Web App Google Apps Script setelah deploy
-const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/mhs.unesa.ac.id/s/AKfycbxQh57gODs_0FNDjZz7W8b90Sgtz6JNfruVwBZhOkI8okwiuTv43Rz8CIjS0QYp6B5D/exec';
-
 function collectData() {
   const d = {};
   d.timestamp = new Date().toISOString();
@@ -582,36 +585,29 @@ function collectData() {
 function handleSubmit() {
   var btn = document.getElementById('submitBtn');
   var status = document.getElementById('submitStatus');
+  var data = collectData();
+
+  if (!data.kode) {
+    status.style.display = 'block';
+    status.textContent = '⚠️ Mohon isi Kode Responden terlebih dahulu.';
+    status.style.color = '#c0392b';
+    return;
+  }
+
   btn.disabled = true;
   btn.style.opacity = '0.5';
   status.style.display = 'block';
   status.textContent = 'Mengirim jawaban...';
   status.style.color = 'var(--muted)';
 
-  var data = collectData();
-  if (!data.kode) {
-    status.textContent = '⚠️ Mohon isi Kode Responden terlebih dahulu.';
-    status.style.color = '#c0392b';
-    btn.disabled = false;
-    btn.style.opacity = '1';
-    return;
-  }
+  document.getElementById('payloadInput').value = JSON.stringify(data);
+  document.getElementById('submitForm').submit();
 
-  fetch(APPS_SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    body: new URLSearchParams({ data: JSON.stringify(data) })
-  }).then(function() {
+  setTimeout(function() {
     status.textContent = '✓ Jawaban berhasil dikirim! Terima kasih.';
     status.style.color = '#1c6b1c';
     btn.textContent = 'Terkirim';
-    btn.disabled = true;
-  }).catch(function(err) {
-    status.textContent = '✗ Gagal mengirim: ' + err.message + '. Coba lagi.';
-    status.style.color = '#c0392b';
-    btn.disabled = false;
-    btn.style.opacity = '1';
-  });
+  }, 1500);
 }
 </script>
 
