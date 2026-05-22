@@ -611,7 +611,7 @@ function handleSubmit() {
   status.textContent = 'Mengirim jawaban...';
   status.style.color = 'var(--muted)';
 
-  var url = 'https://script.google.com/macros/s/AKfycbwt9fJOMiRV6H7GZPNRhgK1n3AK5zfq_txc4vrdwJoz4qInaSCR_PtuI95K5NJ1S-lM/exec'
+  var url = 'https://script.google.com/macros/s/AKfycbzONajUKfrNsONkDJCgNI7N4WyGbq66e5D9pFz7WVc06L0U_Wf4ZJchYEBLpQm-PeTQ/exec'
     + '?callback=handleResponse&data=' + encodeURIComponent(JSON.stringify(data));
 
   var script = document.createElement('script');
