@@ -234,24 +234,24 @@ function handleRequest(e) {
     COLUMN_LABELS['b1q2'] = 'B1.02 Dorongan Share (1-5)';
     COLUMN_LABELS['b1q3'] = 'B1.03 Akurasi Judul (1-5)';
     COLUMN_LABELS['b1q4'] = 'B1.04 Kompetensi NASA';
-    COLUMN_LABELS['b1q5_1'] = 'B1.05a Hal Menarik 1';
-    COLUMN_LABELS['b1q5_2'] = 'B1.05b Hal Menarik 2';
-    COLUMN_LABELS['b1q6'] = 'B1.06 Kesesuaian Judul';
-    COLUMN_LABELS['b1q7'] = 'B1.07 Informasi Kurang';
-    COLUMN_LABELS['b1q7_text'] = 'B1.07 Jelaskan Info Kurang';
-    COLUMN_LABELS['b1q8'] = 'B1.08 Kredibilitas Sumber';
-    COLUMN_LABELS['b1q9'] = 'B1.09 Kesan Akhir';
+    COLUMN_LABELS['b1q5_1'] = 'B1.05a Scanning/Netral 1';
+    COLUMN_LABELS['b1q5_2'] = 'B1.05b Scanning/Netral 2';
+    COLUMN_LABELS['b1q6'] = 'B1.06 Mapping/Uji Judul';
+    COLUMN_LABELS['b1q7'] = 'B1.07 Cek Logika';
+    COLUMN_LABELS['b1q7_text'] = 'B1.07 Penjelasan Loncatan';
+    COLUMN_LABELS['b1q8'] = 'B1.08 Triangulasi Sumber';
+    COLUMN_LABELS['b1q9'] = 'B1.09 Kesimpulan Analisis';
     COLUMN_LABELS['b2q1'] = 'B2.01 Khawatir PHK (1-5)';
     COLUMN_LABELS['b2q2'] = 'B2.02 Dorongan Share PHK (1-5)';
     COLUMN_LABELS['b2q3'] = 'B2.03 Percaya PHK Melonjak (1-5)';
     COLUMN_LABELS['b2q4'] = 'B2.04 Gambaran Lengkap PHK';
-    COLUMN_LABELS['b2q5_1'] = 'B2.05a Kata/Angka 1';
-    COLUMN_LABELS['b2q5_2'] = 'B2.05b Kata/Angka 2';
-    COLUMN_LABELS['b2q6'] = 'B2.06 Mudah Paham Angka';
-    COLUMN_LABELS['b2q7'] = 'B2.07 Info Tambahan PHK';
-    COLUMN_LABELS['b2q8'] = 'B2.08 Kepercayaan Data';
-    COLUMN_LABELS['b2q9'] = 'B2.09 Situasi PHK';
-    COLUMN_LABELS['b2q10'] = 'B2.10 Perilaku Nyata';
+    COLUMN_LABELS['b2q5_1'] = 'B2.05a Kata/Frasa Alarmis 1';
+    COLUMN_LABELS['b2q5_2'] = 'B2.05b Kata/Frasa Alarmis 2';
+    COLUMN_LABELS['b2q6'] = 'B2.06 Verifikasi Angka';
+    COLUMN_LABELS['b2q7'] = 'B2.07 Cek Perbandingan';
+    COLUMN_LABELS['b2q8'] = 'B2.08 Verifikasi Sumber';
+    COLUMN_LABELS['b2q9'] = 'B2.09 Kesimpulan PHK';
+    COLUMN_LABELS['b2q10'] = 'B2.10 Tindakan Lanjut';
     COLUMN_LABELS['rf1'] = 'RF.01 Kepercayaan Media (1-5)';
     COLUMN_LABELS['rf2'] = 'RF.02 Perubahan Sikap';
     COLUMN_LABELS['rf3'] = 'RF.03 Tahapan Terbantu';
@@ -535,7 +535,7 @@ function fixGroupData() {
   }
 
   if (log.length > 0) {
-    sheet.getRange('Z1').setValue('fixGroupData: ' + log.join('; ') + ' — ' + new Date());
+    sheet.getRange('AAB1').setValue('fixGroupData: ' + log.join('; ') + ' — ' + new Date());
     console.log('fixGroupData:', log.join(', '));
   }
 }
@@ -552,24 +552,24 @@ function renameHeaders() {
   LABEL['b1q2'] = 'B1.02 Dorongan Share (1-5)';
   LABEL['b1q3'] = 'B1.03 Akurasi Judul (1-5)';
   LABEL['b1q4'] = 'B1.04 Kompetensi NASA';
-  LABEL['b1q5_1'] = 'B1.05a Hal Menarik 1';
-  LABEL['b1q5_2'] = 'B1.05b Hal Menarik 2';
-  LABEL['b1q6'] = 'B1.06 Kesesuaian Judul';
-  LABEL['b1q7'] = 'B1.07 Informasi Kurang';
-  LABEL['b1q7_text'] = 'B1.07 Jelaskan Info Kurang';
-  LABEL['b1q8'] = 'B1.08 Kredibilitas Sumber';
-  LABEL['b1q9'] = 'B1.09 Kesan Akhir';
+  LABEL['b1q5_1'] = 'B1.05a Scanning/Netral 1';
+  LABEL['b1q5_2'] = 'B1.05b Scanning/Netral 2';
+  LABEL['b1q6'] = 'B1.06 Mapping/Uji Judul';
+  LABEL['b1q7'] = 'B1.07 Cek Logika';
+  LABEL['b1q7_text'] = 'B1.07 Penjelasan Loncatan';
+  LABEL['b1q8'] = 'B1.08 Triangulasi Sumber';
+  LABEL['b1q9'] = 'B1.09 Kesimpulan Analisis';
   LABEL['b2q1'] = 'B2.01 Khawatir PHK (1-5)';
   LABEL['b2q2'] = 'B2.02 Dorongan Share PHK (1-5)';
   LABEL['b2q3'] = 'B2.03 Percaya PHK Melonjak (1-5)';
   LABEL['b2q4'] = 'B2.04 Gambaran Lengkap PHK';
-  LABEL['b2q5_1'] = 'B2.05a Kata/Angka 1';
-  LABEL['b2q5_2'] = 'B2.05b Kata/Angka 2';
-  LABEL['b2q6'] = 'B2.06 Mudah Paham Angka';
-  LABEL['b2q7'] = 'B2.07 Info Tambahan PHK';
-  LABEL['b2q8'] = 'B2.08 Kepercayaan Data';
-  LABEL['b2q9'] = 'B2.09 Situasi PHK';
-  LABEL['b2q10'] = 'B2.10 Perilaku Nyata';
+  LABEL['b2q5_1'] = 'B2.05a Kata/Frasa Alarmis 1';
+  LABEL['b2q5_2'] = 'B2.05b Kata/Frasa Alarmis 2';
+  LABEL['b2q6'] = 'B2.06 Verifikasi Angka';
+  LABEL['b2q7'] = 'B2.07 Cek Perbandingan';
+  LABEL['b2q8'] = 'B2.08 Verifikasi Sumber';
+  LABEL['b2q9'] = 'B2.09 Kesimpulan PHK';
+  LABEL['b2q10'] = 'B2.10 Tindakan Lanjut';
   LABEL['rf1'] = 'RF.01 Kepercayaan Media (1-5)';
   LABEL['rf2'] = 'RF.02 Perubahan Sikap';
   LABEL['rf3'] = 'RF.03 Tahapan Terbantu';
@@ -590,5 +590,5 @@ function renameHeaders() {
   var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
   var newHeaders = headers.map(function(h) { return LABEL[h] || h; });
   sheet.getRange(1, 1, 1, lastCol).setValues([newHeaders]);
-  sheet.getRange('Z1').setValue('renameHeaders: ' + new Date());
+  sheet.getRange('AAA1').setValue('renameHeaders: ' + new Date());
 }
